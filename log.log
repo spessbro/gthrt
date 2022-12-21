@@ -1,0 +1,459 @@
+To honour the JVM settings for this build a new JVM will be forked. Please consider using the daemon: https://docs.gradle.org/4.9/userguide/gradle_daemon.html.
+Daemon will be stopped at the end of the build stopping after processing
+
+> Configure project :
+This mapping 'stable_39' was designed for MC 1.12! Use at your own peril.
+WARNING: You are using an unsupported version of ForgeGradle.
+Please consider upgrading to ForgeGradle 5 and helping in the efforts to get old versions working on the modern toolchain.
+See https://gist.github.com/TheCurle/fe7ad3ede188cbdd15c235cc75d52d4a for more info on contributing.
+#################################################
+         ForgeGradle 2.3.4-gfc67182        
+  https://github.com/MinecraftForge/ForgeGradle  
+#################################################
+                 Powered by MCP                  
+             http://modcoderpack.com             
+     by: Searge, ProfMobius, R4wk, ZeuX          
+     Fesh0r, IngisKahn, bspkrs, LexManos         
+#################################################
+
+> Task :getAssets
+Current status: 943/1305   72%
+Current status: 1065/1305   81%
+Current status: 1077/1305   82%
+Current status: 1269/1305   97%
+
+> Task :runClient
+[01:29:43] [main/INFO] [GradleStart]: Extra: []
+[01:29:43] [main/INFO] [GradleStart]: Found and added coremod: gregtech.asm.GregTechLoadingPlugin
+[01:29:43] [main/INFO] [GradleStart]: Running with arguments: [--userProperties, {}, --assetsDir, /home/fuck/.gradle/caches/minecraft/assets, --assetIndex, 1.12, --accessToken{REDACTED}, --version, 1.12.2, --tweakClass, net.minecraftforge.fml.common.launcher.FMLTweaker, --tweakClass, net.minecraftforge.gradle.tweakers.CoremodTweaker]
+[01:29:43] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[01:29:43] [main/INFO] [LaunchWrapper]: Using primary tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[01:29:43] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.gradle.tweakers.CoremodTweaker
+[01:29:43] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLTweaker
+[01:29:43] [main/INFO] [FML]: Forge Mod Loader version 14.23.5.2847 for Minecraft 1.12.2 loading
+[01:29:43] [main/INFO] [FML]: Java is OpenJDK 64-Bit Server VM, version 1.8.0_312, running on Linux:amd64:5.4.0-121-generic, installed at /usr/lib/jvm/java-8-openjdk-amd64/jre
+[01:29:43] [main/ERROR] [FML]: Apache Maven library folder was not in the format expected. Using default libraries directory.
+[01:29:43] [main/ERROR] [FML]: Full: /home/fuck/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-artifact/3.5.3/7dc72b6d6d8a6dced3d294ed54c2cc3515ade9f4/maven-artifact-3.5.3.jar
+[01:29:43] [main/ERROR] [FML]: Trimmed: /home/fuck/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-artifact/3.5.3/
+[01:29:43] [main/INFO] [FML]: Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
+[01:29:43] [main/INFO] [FML]: Detected deobfuscated environment, loading log configs for colored console logs.
+2022-12-21 01:29:45,119 main WARN Disabling terminal, you're running in an unsupported environment.
+[01:29:45] [main/INFO] [FML]: Ignoring missing certificate for coremod FMLCorePlugin (net.minecraftforge.fml.relauncher.FMLCorePlugin), we are in deobf and it's a forge core plugin
+[01:29:45] [main/INFO] [FML]: Ignoring missing certificate for coremod FMLForgePlugin (net.minecraftforge.classloading.FMLForgePlugin), we are in deobf and it's a forge core plugin
+[01:29:45] [main/INFO] [FML]: Found a command line coremod : gregtech.asm.GregTechLoadingPlugin
+[01:29:45] [main/INFO] [FML]: Ignoring missing certificate for coremod GregTechLoadingPlugin (gregtech.asm.GregTechLoadingPlugin), as this is probably a dev workspace
+[01:29:45] [main/INFO] [FML]: Searching /home/fuck/Programming/Java/greg/GTHRT/run/./mods for mods
+[01:29:45] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.gradle.tweakers.CoremodTweaker
+[01:29:45] [main/INFO] [GradleStart]: Injecting location in coremod net.minecraftforge.fml.relauncher.FMLCorePlugin
+[01:29:45] [main/INFO] [GradleStart]: Injecting location in coremod net.minecraftforge.classloading.FMLForgePlugin
+[01:29:45] [main/INFO] [GradleStart]: Injecting location in coremod gregtech.asm.GregTechLoadingPlugin
+[01:29:45] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[01:29:45] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[01:29:45] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
+[01:29:45] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[01:29:45] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[01:29:45] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[01:29:47] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[01:29:47] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[01:29:47] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[01:29:48] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[01:29:48] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
+[01:29:48] [main/INFO] [GradleStart]: Remapping AccessTransformer rules...
+[01:29:48] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.TerminalTweaker
+[01:29:48] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.TerminalTweaker
+[01:29:48] [main/INFO] [LaunchWrapper]: Launching wrapped minecraft {net.minecraft.client.main.Main}
+[01:29:48] [main/INFO] [GregTechTransformer]: Patched method playEvent(Lnet/minecraft/entity/player/EntityPlayer;ILnet/minecraft/util/math/BlockPos;I)V in net/minecraft/world/World successfully
+[01:29:50] [Client thread/INFO] [minecraft/Minecraft]: Setting user: Player9
+[01:29:59] [Client thread/WARN] [minecraft/GameSettings]: Skipping bad option: lastServer:
+[01:29:59] [Client thread/INFO] [minecraft/Minecraft]: LWJGL Version: 2.9.4
+[01:30:00] [Client thread/INFO] [FML]: -- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Linux (amd64) version 5.4.0-121-generic
+	Java Version: 1.8.0_312, Private Build
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Private Build
+	Memory: 172218928 bytes (164 MB) / 491257856 bytes (468 MB) up to 1828716544 bytes (1744 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: 
+	Loaded coremods (and transformers): 
+GregTechLoadingPlugin (gregtech-1.12.2-2.4.4-beta.jar)
+  gregtech.asm.GregTechTransformer
+	GL info: ' Vendor: 'Intel Open Source Technology Center' Version: '3.0 Mesa 21.2.6' Renderer: 'Mesa DRI Intel(R) HD Graphics 3000 (SNB GT2)'
+[01:30:00] [Client thread/INFO] [FML]: MinecraftForge v14.23.5.2847 Initialized
+[01:30:00] [Client thread/INFO] [FML]: Starts to replace vanilla recipe ingredients with ore ingredients.
+[01:30:01] [Client thread/INFO] [FML]: Invalid recipe found with multiple oredict ingredients in the same ingredient...
+[01:30:01] [Client thread/INFO] [FML]: Replaced 1227 ore ingredients
+[01:30:02] [Client thread/INFO] [FML]: Searching /home/fuck/Programming/Java/greg/GTHRT/run/./mods for mods
+[01:30:03] [Thread-3/INFO] [FML]: Using sync timing. 200 frames of Display.update took 160168299 nanos
+[01:30:03] [Client thread/WARN] [FML]: Mod gregtech is missing the required element 'version' and a version.properties file could not be found. Falling back to metadata version 2.4.4-beta
+[01:30:05] [Client thread/WARN] [FML]: Mod codechickenlib is missing the required element 'version' and a version.properties file could not be found. Falling back to metadata version 3.2.3.358
+[01:30:07] [Client thread/INFO] [FML]: Forge Mod Loader has identified 11 mods to load
+[01:30:08] [Client thread/INFO] [FML]: Attempting connection with missing mods [minecraft, mcp, FML, forge, gregtech, ctgui, crafttweaker, crafttweakerjei, codechickenlib, jei, gthrt] at CLIENT
+[01:30:08] [Client thread/INFO] [FML]: Attempting connection with missing mods [minecraft, mcp, FML, forge, gregtech, ctgui, crafttweaker, crafttweakerjei, codechickenlib, jei, gthrt] at SERVER
+[01:30:11] [Client thread/ERROR] [FML]: The mod codechickenlib is expecting signature f1850c39b2516232a2108a7bd84d1cb5df93b261 for source CodeChickenLib-1.12.2-3.2.3.358.jar, however there is no signature matching that description
+[01:30:13] [Client thread/INFO] [GregTechTransformer]: Patched method renderWorldPass(IFJ)V in net/minecraft/client/renderer/EntityRenderer successfully
+[01:30:13] [Client thread/ERROR] [FML]: The mod gthrt appears to have an invalid event annotation EventHandler. This annotation can only apply to methods with recognized event arguments - it will not be called
+[01:30:13] [Client thread/INFO] [minecraft/SimpleReloadableResourceManager]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:GregTech, FMLFileResourcePack:CT-GUI, FMLFileResourcePack:CraftTweaker2, FMLFileResourcePack:CraftTweaker JEI Support, FMLFileResourcePack:CodeChicken Lib, FMLFileResourcePack:Just Enough Items, FMLFileResourcePack:GregTech Highly Randomized Trade
+[01:30:14] [Client thread/INFO] [FML]: Processing ObjectHolder annotations
+[01:30:14] [Client thread/INFO] [FML]: Found 1168 ObjectHolder annotations
+[01:30:14] [Client thread/INFO] [FML]: Identifying ItemStackHolder annotations
+[01:30:14] [Client thread/INFO] [FML]: Found 0 ItemStackHolder annotations
+[01:30:14] [Client thread/INFO] [FML]: Configured a dormant chunk cache size of 0
+[01:30:14] [Forge Version Check/INFO] [forge.VersionCheck]: [crafttweaker] Starting version check at https://updates.blamejared.com/get?n=crafttweaker&gv=1.12.2
+[01:30:15] [Forge Version Check/INFO] [forge.VersionCheck]: [crafttweaker] Found status: BETA Target: null
+[01:30:15] [Forge Version Check/INFO] [forge.VersionCheck]: [codechickenlib] Starting version check at http://chickenbones.net/Files/notification/version.php?query=forge&version=1.12&file=CodeChickenLib
+[01:30:15] [Forge Version Check/INFO] [forge.VersionCheck]: [codechickenlib] Found status: BETA Target: null
+[01:30:15] [Forge Version Check/INFO] [forge.VersionCheck]: [forge] Starting version check at http://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[01:30:16] [Forge Version Check/INFO] [forge.VersionCheck]: [forge] Found status: OUTDATED Target: 14.23.5.2859
+[01:30:18] [Client thread/INFO] [GregTech Core]: Registering GTCEu UI Factories
+[01:30:18] [Client thread/INFO] [GregTech Core]: Registering addon UI Factories
+[01:30:18] [Client thread/INFO] [GregTech Core]: Registering GTCEu Materials
+[01:30:19] [Client thread/INFO] [GregTech Core]: Registering addon Materials
+[01:30:19] [Client thread/INFO] [GregTech Core]: Running early CraftTweaker initialization scripts...
+[01:30:21] [Client thread/INFO] [GregTech Core]: Registering GTCEu Meta Tile Entities
+[01:30:21] [Client thread/INFO] [GregTech]: Registering MetaTileEntities
+[01:30:23] [Client thread/INFO] [GregTech]: Registering KeyBinds
+[01:30:23] [Client thread/INFO] [GregTech]: Registering Blocks...
+[01:30:23] [Client thread/INFO] [FML]: Applying holder lookups
+[01:30:23] [Client thread/INFO] [FML]: Holder lookups applied
+[01:30:23] [Client thread/INFO] [GregTech]: Registering Items...
+[01:30:24] [Client thread/INFO] [FML]: Applying holder lookups
+[01:30:24] [Client thread/INFO] [FML]: Holder lookups applied
+[01:30:24] [Client thread/INFO] [FML]: Applying holder lookups
+[01:30:24] [Client thread/INFO] [FML]: Holder lookups applied
+[01:30:25] [Client thread/INFO] [FML]: Applying holder lookups
+[01:30:25] [Client thread/INFO] [FML]: Holder lookups applied
+[01:30:25] [Client thread/INFO] [FML]: Injecting itemstacks
+[01:30:25] [Client thread/INFO] [FML]: Itemstack injection complete
+[01:30:27] [Sound Library Loader/INFO] [minecraft/SoundManager]: Starting up SoundSystem...
+[01:30:27] [Thread-5/INFO] [minecraft/SoundManager]: Initializing LWJGL OpenAL
+[01:30:27] [Thread-5/INFO] [minecraft/SoundManager]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[01:30:27] [Thread-5/INFO] [minecraft/SoundManager]: OpenAL initialized.
+[01:30:27] [Sound Library Loader/INFO] [minecraft/SoundManager]: Sound engine started
+[01:30:35] [Client thread/INFO] [GregTech]: Loading meta tile entity texture sprites...
+[01:30:35] [Client thread/INFO] [FML]: Max texture size: 8192
+[01:30:39] [Client thread/INFO] [minecraft/TextureMap]: Created: 1024x1024 textures-atlas
+[01:30:42] [Client thread/INFO] [GregTech]: Injected MetaTileEntity render model
+[01:30:42] [Client thread/INFO] [GregTech]: Registering special item models
+[01:30:43] [Client thread/ERROR] [FML]: Exception loading model for variant gregtech:metaitems/plugin.graph#inventory for item "gthrt:hrt_meta_item", normal location exception: 
+net.minecraftforge.client.model.ModelLoaderRegistry$LoaderException: Exception loading model gregtech:item/metaitems/plugin.graph with loader VanillaLoader.INSTANCE, skipping
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:161) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader.loadItemModels(ModelLoader.java:302) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadVariantItemModels(ModelBakery.java:175) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.setupModelRegistry(ModelLoader.java:151) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelManager.onResourceManagerReload(ModelManager.java:28) [ModelManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.registerReloadListener(SimpleReloadableResourceManager.java:132) [SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:560) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:422) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_312]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_312]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_312]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_312]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_312]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_312]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_312]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_312]
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97) [start/:?]
+	at GradleStart.main(GradleStart.java:25) [start/:?]
+Caused by: java.io.FileNotFoundException: gregtech:models/item/metaitems/plugin.graph.json
+	at net.minecraft.client.resources.FallbackResourceManager.getResource(FallbackResourceManager.java:73) ~[FallbackResourceManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:65) ~[SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadModel(ModelBakery.java:334) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.access$1400(ModelLoader.java:115) ~[ModelLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VanillaLoader.loadModel(ModelLoader.java:861) ~[ModelLoader$VanillaLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	... 20 more
+[01:30:43] [Client thread/ERROR] [FML]: Exception loading model for variant gregtech:metaitems/plugin.graph#inventory for item "gthrt:hrt_meta_item", blockstate location exception: 
+net.minecraftforge.client.model.ModelLoaderRegistry$LoaderException: Exception loading model gregtech:metaitems/plugin.graph#inventory with loader VariantLoader.INSTANCE, skipping
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:161) ~[ModelLoaderRegistry.class:?]
+	at net.minecraftforge.client.model.ModelLoader.loadItemModels(ModelLoader.java:296) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelBakery.loadVariantItemModels(ModelBakery.java:175) ~[ModelBakery.class:?]
+	at net.minecraftforge.client.model.ModelLoader.setupModelRegistry(ModelLoader.java:151) ~[ModelLoader.class:?]
+	at net.minecraft.client.renderer.block.model.ModelManager.onResourceManagerReload(ModelManager.java:28) [ModelManager.class:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.registerReloadListener(SimpleReloadableResourceManager.java:132) [SimpleReloadableResourceManager.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:560) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:422) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_312]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_312]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_312]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_312]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_312]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_312]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_312]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_312]
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97) [start/:?]
+	at GradleStart.main(GradleStart.java:25) [start/:?]
+Caused by: net.minecraft.client.renderer.block.model.ModelBlockDefinition$MissingVariantException
+	at net.minecraft.client.renderer.block.model.ModelBlockDefinition.getVariant(ModelBlockDefinition.java:83) ~[ModelBlockDefinition.class:?]
+	at net.minecraftforge.client.model.ModelLoader$VariantLoader.loadModel(ModelLoader.java:1175) ~[ModelLoader$VariantLoader.class:?]
+	at net.minecraftforge.client.model.ModelLoaderRegistry.getModel(ModelLoaderRegistry.java:157) ~[ModelLoaderRegistry.class:?]
+	... 20 more
+[01:30:43] [Client thread/INFO] [GregTechTransformer]: Patched method doRenderLayer(Lnet/minecraft/entity/EntityLivingBase;FFFFFFF)V in net/minecraft/client/renderer/entity/layers/LayerCustomHead successfully
+[01:30:43] [Client thread/INFO] [GregTechTransformer]: Patched method renderArmorLayer(Lnet/minecraft/entity/EntityLivingBase;FFFFFFFLnet/minecraft/inventory/EntityEquipmentSlot;)V in net/minecraft/client/renderer/entity/layers/LayerArmorBase successfully
+[01:30:48] [Client thread/INFO] [GregTech]: Registering ore dictionary...
+[01:30:49] [Client thread/INFO] [GregTech]: Registering OreDict entries.
+[01:30:49] [Client thread/INFO] [GregTech]: Registering recipes...
+[01:30:52] [Client thread/INFO] [GregTech]: Modifying vanilla recipes according to config. DON'T BE SCARED OF FML's WARNING ABOUT DANGEROUS ALTERNATIVE PREFIX.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `paper`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `sugar`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `glass_bottle`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `iron_door`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `cauldron`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `hopper`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `iron_bars`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `anvil`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `iron_trapdoor`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `minecart`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `bucket`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `flint_and_steel`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `tnt`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `white_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `orange_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `magenta_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `light_blue_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `yellow_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `lime_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `pink_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `gray_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `light_gray_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `cyan_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `purple_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `blue_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `brown_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `green_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `red_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `black_stained_glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:52] [Client thread/WARN] [FML]: Potentially Dangerous alternative prefix `minecraft` for name `glass_pane`, expected `gregtech`. This could be a intended override, but in most cases indicates a broken mod.
+[01:30:53] [Client thread/INFO] [GregTech]: Running early material handlers...
+[01:30:59] [Client thread/INFO] [GregTech]: Running late material handlers...
+[01:31:00] [Client thread/INFO] [FML]: Applying holder lookups
+[01:31:00] [Client thread/INFO] [FML]: Holder lookups applied
+[01:31:00] [Client thread/INFO] [GregTechTransformer]: Patched method init()V in codechicken/lib/internal/ModDescriptionEnhancer successfully
+[01:31:00] [Client thread/INFO] [jei]: Created: 256x128 textures-atlas
+[01:31:00] [Client thread/INFO] [GregTech]: Initializing ore generation registry...
+[01:31:00] [Client thread/INFO] [GregTech]: Reloading ore generation files from config...
+[01:31:00] [Client thread/INFO] [GregTech]: Loaded 45 vein worldgen definitions
+[01:31:00] [Client thread/INFO] [GregTech]: Loaded 8 bedrock worldgen definitions
+[01:31:00] [Client thread/INFO] [GregTech]: Loaded 0 worldgen definitions from addon mods
+[01:31:00] [Client thread/INFO] [GregTech]: Loaded 0 bedrock worldgen definitions from addon mods
+[01:31:00] [Client thread/INFO] [GregTech]: Loaded 53 total worldgen definitions
+[01:31:00] [Client thread/INFO] [GregTech]: Registering cover behaviors...
+[01:31:01] [Client thread/INFO] [GregTech]: Registering dungeon loot...
+[01:31:01] [Client thread/INFO] [FML]: Injecting itemstacks
+[01:31:01] [Client thread/INFO] [FML]: Itemstack injection complete
+[01:31:02] [Client thread/INFO] [GregTech]: RefinedStorage not found; skipping integration.
+[01:31:02] [Client thread/INFO] [GregTech]: AppliedEnergistics2 not found; skipping integration.
+[01:31:08] [Client thread/INFO] [jei]: Starting JEI...
+[01:31:08] [Client thread/INFO] [GregTechTransformer]: Patched method addModNameToIngredientTooltip(Ljava/util/List;Ljava/lang/Object;Lmezz/jei/api/ingredients/IIngredientHelper;)Ljava/util/List; in mezz/jei/startup/ForgeModIdHelper successfully
+[01:31:09] [Client thread/INFO] [jei]: Registering recipe categories...
+[01:31:09] [Client thread/INFO] [jei]: Registering recipe categories took 210.7 ms
+[01:31:09] [Client thread/INFO] [jei]: Registering mod plugins...
+[01:31:12] [Client thread/INFO] [jei]: Added recipe registry plugin: class gregtech.integration.jei.recipe.FacadeRegistryPlugin
+[01:31:12] [Client thread/INFO] [jei]: Registering mod plugins took 3.487 s
+[01:31:12] [Client thread/INFO] [jei]: Building recipe registry...
+[01:31:16] [Client thread/INFO] [jei]: Building recipe registry took 3.559 s
+[01:31:16] [Client thread/INFO] [jei]: Building ingredient list...
+[01:31:16] [Client thread/INFO] [jei]: Building ingredient list took 306.0 ms
+[01:31:16] [Client thread/INFO] [jei]: Building ingredient filter...
+[01:31:21] [Client thread/INFO] [jei]: Building ingredient filter took 4.911 s
+[01:31:21] [Client thread/INFO] [jei]: Building bookmarks...
+[01:31:21] [Client thread/INFO] [jei]: Building bookmarks took 27.21 ms
+[01:31:21] [Client thread/INFO] [jei]: Building runtime...
+[01:31:22] [Client thread/INFO] [jei]: Building runtime took 363.0 ms
+[01:31:22] [Client thread/INFO] [jei]: Optimizing memory usage...
+[01:31:22] [Client thread/INFO] [jei]: Optimizing memory usage took 444.3 ms
+[01:31:22] [Client thread/INFO] [jei]: Starting JEI took 14.15 s
+[01:31:33] [Client thread/INFO] [FML]: Forge Mod Loader has successfully loaded 11 mods
+[01:31:33] [Client thread/WARN] [minecraft/GameSettings]: Skipping bad option: lastServer:
+[01:31:34] [Client thread/INFO] [mojang/NarratorLinux]: Narrator library successfully loaded
+[01:31:34] [Client thread/INFO] [GregTechTransformer]: Patched method rebuildChunk(FFFLnet/minecraft/client/renderer/chunk/ChunkCompileTaskGenerator;)V in net/minecraft/client/renderer/chunk/RenderChunk successfully
+[01:31:34] [Realms Notification Availability checker #1/INFO] [mojang/RealmsClient]: Could not authorize you against Realms server: Invalid session id
+[01:31:41] [Server thread/INFO] [minecraft/IntegratedServer]: Starting integrated minecraft server version 1.12.2
+[01:31:41] [Server thread/INFO] [minecraft/IntegratedServer]: Generating keypair
+[01:31:42] [Server thread/INFO] [FML]: Injecting existing registry data into this server instance
+[01:31:48] [Server thread/INFO] [FML]: Applying holder lookups
+[01:31:48] [Server thread/INFO] [FML]: Holder lookups applied
+[01:31:48] [Server thread/INFO] [FML]: Loading dimension 0 (Bop) (net.minecraft.server.integrated.IntegratedServer@57298ad3)
+[01:31:49] [Server thread/INFO] [minecraft/AdvancementList]: Loaded 586 advancements
+[01:31:49] [Server thread/INFO] [FML]: Loading dimension -1 (Bop) (net.minecraft.server.integrated.IntegratedServer@57298ad3)
+[01:31:49] [Server thread/INFO] [FML]: Loading dimension 1 (Bop) (net.minecraft.server.integrated.IntegratedServer@57298ad3)
+[01:31:49] [Server thread/INFO] [minecraft/MinecraftServer]: Preparing start region for level 0
+[01:31:50] [Server thread/INFO] [minecraft/MinecraftServer]: Preparing spawn area: 70%
+[01:31:50] [Server thread/INFO] [gthrt]: MarketData Loaded, markets size >> 1
+[01:31:50] [Server thread/INFO] [FML]: Unloading dimension -1
+[01:31:50] [Server thread/INFO] [FML]: Unloading dimension 1
+[01:31:50] [Server thread/INFO] [minecraft/IntegratedServer]: Changing view distance to 12, from 10
+[01:31:52] [Netty Local Client IO #0/INFO] [FML]: Server protocol version 2
+[01:31:52] [Netty Server IO #1/INFO] [FML]: Client protocol version 2
+[01:31:52] [Netty Server IO #1/INFO] [FML]: Client attempting to join with 11 mods : minecraft@1.12.2,crafttweaker@4.1.20,ctgui@1.0.0,FML@8.0.99.99,crafttweakerjei@2.0.3,forge@14.23.5.2847,codechickenlib@3.2.3.358,gregtech@2.4.4-beta,mcp@9.42,gthrt@0.0,jei@4.16.1.302
+[01:31:52] [Netty Server IO #1/INFO] [CodeChickenLib-ConfigSync]: Skipping config sync, No mods have registered a syncable config.
+[01:31:52] [Server thread/INFO] [FML]: [Server thread] Server side modded connection established
+[01:31:52] [Server thread/INFO] [minecraft/PlayerList]: Player9[local:E:757b5090] logged in with entity id 3936 at (-446.94292468462453, 56.0, -1224.6508767122934)
+[01:31:52] [Netty Local Client IO #0/INFO] [FML]: [Netty Local Client IO #0] Client side modded connection established
+[01:31:52] [Server thread/INFO] [minecraft/MinecraftServer]: Player9 joined the game
+[01:31:53] [Client thread/INFO] [GregTechTransformer]: Patched method <init>()V in net/minecraft/client/renderer/RegionRenderCacheBuilder successfully
+[01:31:57] [Server thread/INFO] [minecraft/IntegratedServer]: Saving and pausing game...
+[01:31:57] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'Bop'/overworld
+[01:31:57] [Server thread/WARN] [minecraft/MinecraftServer]: Can't keep up! Did the system time change, or is the server overloaded? Running 3928ms behind, skipping 78 tick(s)
+[01:31:58] [Client thread/INFO] [GregTech]: No optiFine mod found.
+[01:32:06] [Server thread/INFO] [gthrt]: Stepped 1 times
+[01:32:06] [Netty Local Client IO #0/ERROR] [FML]: Exception caught during firing event net.minecraftforge.fml.common.network.FMLNetworkEvent$ClientCustomPacketEvent@33a78071:
+java.lang.NullPointerException: null
+	at gregtech.core.network.internal.NetworkHandler.toGTPacket(NetworkHandler.java:140) ~[NetworkHandler.class:?]
+	at gregtech.core.network.internal.NetworkHandler.onClientPacket(NetworkHandler.java:103) ~[NetworkHandler.class:?]
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_196_NetworkHandler_onClientPacket_ClientCustomPacketEvent.invoke(.dynamic) ~[?:?]
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90) ~[ASMEventHandler.class:?]
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182) [EventBus.class:?]
+	at net.minecraftforge.fml.common.network.FMLEventChannel.fireRead(FMLEventChannel.java:130) [FMLEventChannel.class:?]
+	at net.minecraftforge.fml.common.network.NetworkEventFiringHandler.channelRead0(NetworkEventFiringHandler.java:51) [NetworkEventFiringHandler.class:?]
+	at net.minecraftforge.fml.common.network.NetworkEventFiringHandler.channelRead0(NetworkEventFiringHandler.java:39) [NetworkEventFiringHandler.class:?]
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105) [SimpleChannelInboundHandler.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1334) [DefaultChannelPipeline$HeadContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:926) [DefaultChannelPipeline.class:4.1.9.Final]
+	at io.netty.channel.embedded.EmbeddedChannel.writeInbound(EmbeddedChannel.java:274) [EmbeddedChannel.class:4.1.9.Final]
+	at net.minecraftforge.fml.common.network.internal.FMLProxyPacket.processPacket(FMLProxyPacket.java:108) [FMLProxyPacket.class:?]
+	at net.minecraft.network.NetworkManager.channelRead0(NetworkManager.java:155) [NetworkManager.class:?]
+	at net.minecraft.network.NetworkManager.channelRead0(NetworkManager.java:49) [NetworkManager.class:?]
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105) [SimpleChannelInboundHandler.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher.handleClientSideCustomPacket(NetworkDispatcher.java:385) [NetworkDispatcher.class:?]
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher.channelRead0(NetworkDispatcher.java:271) [NetworkDispatcher.class:?]
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher.channelRead0(NetworkDispatcher.java:72) [NetworkDispatcher.class:?]
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105) [SimpleChannelInboundHandler.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1334) [DefaultChannelPipeline$HeadContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:926) [DefaultChannelPipeline.class:4.1.9.Final]
+	at io.netty.channel.local.LocalChannel.finishPeerRead0(LocalChannel.java:443) [LocalChannel.class:4.1.9.Final]
+	at io.netty.channel.local.LocalChannel.access$500(LocalChannel.java:49) [LocalChannel.class:4.1.9.Final]
+	at io.netty.channel.local.LocalChannel$5.run(LocalChannel.java:397) [LocalChannel$5.class:4.1.9.Final]
+	at io.netty.channel.DefaultEventLoop.run(DefaultEventLoop.java:54) [DefaultEventLoop.class:4.1.9.Final]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:858) [SingleThreadEventExecutor$5.class:4.1.9.Final]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_312]
+[01:32:06] [Netty Local Client IO #0/ERROR] [FML]: Index: 1 Listeners:
+[01:32:06] [Netty Local Client IO #0/ERROR] [FML]: 0: NORMAL
+[01:32:06] [Netty Local Client IO #0/ERROR] [FML]: 1: ASM: gregtech.core.network.internal.NetworkHandler@429e4a76 onClientPacket(Lnet/minecraftforge/fml/common/network/FMLNetworkEvent$ClientCustomPacketEvent;)V
+[01:32:06] [Netty Local Client IO #0/ERROR] [FML]: NetworkEventFiringHandler exception
+java.lang.NullPointerException: null
+	at gregtech.core.network.internal.NetworkHandler.toGTPacket(NetworkHandler.java:140) ~[NetworkHandler.class:?]
+	at gregtech.core.network.internal.NetworkHandler.onClientPacket(NetworkHandler.java:103) ~[NetworkHandler.class:?]
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_196_NetworkHandler_onClientPacket_ClientCustomPacketEvent.invoke(.dynamic) ~[?:?]
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90) ~[ASMEventHandler.class:?]
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182) ~[EventBus.class:?]
+	at net.minecraftforge.fml.common.network.FMLEventChannel.fireRead(FMLEventChannel.java:130) ~[FMLEventChannel.class:?]
+	at net.minecraftforge.fml.common.network.NetworkEventFiringHandler.channelRead0(NetworkEventFiringHandler.java:51) ~[NetworkEventFiringHandler.class:?]
+	at net.minecraftforge.fml.common.network.NetworkEventFiringHandler.channelRead0(NetworkEventFiringHandler.java:39) ~[NetworkEventFiringHandler.class:?]
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105) ~[SimpleChannelInboundHandler.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1334) [DefaultChannelPipeline$HeadContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:926) [DefaultChannelPipeline.class:4.1.9.Final]
+	at io.netty.channel.embedded.EmbeddedChannel.writeInbound(EmbeddedChannel.java:274) [EmbeddedChannel.class:4.1.9.Final]
+	at net.minecraftforge.fml.common.network.internal.FMLProxyPacket.processPacket(FMLProxyPacket.java:108) [FMLProxyPacket.class:?]
+	at net.minecraft.network.NetworkManager.channelRead0(NetworkManager.java:155) [NetworkManager.class:?]
+	at net.minecraft.network.NetworkManager.channelRead0(NetworkManager.java:49) [NetworkManager.class:?]
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105) [SimpleChannelInboundHandler.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher.handleClientSideCustomPacket(NetworkDispatcher.java:385) [NetworkDispatcher.class:?]
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher.channelRead0(NetworkDispatcher.java:271) [NetworkDispatcher.class:?]
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher.channelRead0(NetworkDispatcher.java:72) [NetworkDispatcher.class:?]
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105) [SimpleChannelInboundHandler.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1334) [DefaultChannelPipeline$HeadContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:926) [DefaultChannelPipeline.class:4.1.9.Final]
+	at io.netty.channel.local.LocalChannel.finishPeerRead0(LocalChannel.java:443) [LocalChannel.class:4.1.9.Final]
+	at io.netty.channel.local.LocalChannel.access$500(LocalChannel.java:49) [LocalChannel.class:4.1.9.Final]
+	at io.netty.channel.local.LocalChannel$5.run(LocalChannel.java:397) [LocalChannel$5.class:4.1.9.Final]
+	at io.netty.channel.DefaultEventLoop.run(DefaultEventLoop.java:54) [DefaultEventLoop.class:4.1.9.Final]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:858) [SingleThreadEventExecutor$5.class:4.1.9.Final]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_312]
+[01:32:06] [Netty Local Client IO #0/ERROR] [FML]: There was a critical exception handling a packet on channel gregtech
+java.lang.NullPointerException: null
+	at gregtech.core.network.internal.NetworkHandler.toGTPacket(NetworkHandler.java:140) ~[NetworkHandler.class:?]
+	at gregtech.core.network.internal.NetworkHandler.onClientPacket(NetworkHandler.java:103) ~[NetworkHandler.class:?]
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_196_NetworkHandler_onClientPacket_ClientCustomPacketEvent.invoke(.dynamic) ~[?:?]
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90) ~[ASMEventHandler.class:?]
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182) ~[EventBus.class:?]
+	at net.minecraftforge.fml.common.network.FMLEventChannel.fireRead(FMLEventChannel.java:130) ~[FMLEventChannel.class:?]
+	at net.minecraftforge.fml.common.network.NetworkEventFiringHandler.channelRead0(NetworkEventFiringHandler.java:51) ~[NetworkEventFiringHandler.class:?]
+	at net.minecraftforge.fml.common.network.NetworkEventFiringHandler.channelRead0(NetworkEventFiringHandler.java:39) ~[NetworkEventFiringHandler.class:?]
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105) ~[SimpleChannelInboundHandler.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1334) ~[DefaultChannelPipeline$HeadContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:926) ~[DefaultChannelPipeline.class:4.1.9.Final]
+	at io.netty.channel.embedded.EmbeddedChannel.writeInbound(EmbeddedChannel.java:274) ~[EmbeddedChannel.class:4.1.9.Final]
+	at net.minecraftforge.fml.common.network.internal.FMLProxyPacket.processPacket(FMLProxyPacket.java:108) [FMLProxyPacket.class:?]
+	at net.minecraft.network.NetworkManager.channelRead0(NetworkManager.java:155) [NetworkManager.class:?]
+	at net.minecraft.network.NetworkManager.channelRead0(NetworkManager.java:49) [NetworkManager.class:?]
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105) [SimpleChannelInboundHandler.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher.handleClientSideCustomPacket(NetworkDispatcher.java:385) [NetworkDispatcher.class:?]
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher.channelRead0(NetworkDispatcher.java:271) [NetworkDispatcher.class:?]
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher.channelRead0(NetworkDispatcher.java:72) [NetworkDispatcher.class:?]
+	at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105) [SimpleChannelInboundHandler.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:340) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1334) [DefaultChannelPipeline$HeadContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:362) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:348) [AbstractChannelHandlerContext.class:4.1.9.Final]
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:926) [DefaultChannelPipeline.class:4.1.9.Final]
+	at io.netty.channel.local.LocalChannel.finishPeerRead0(LocalChannel.java:443) [LocalChannel.class:4.1.9.Final]
+	at io.netty.channel.local.LocalChannel.access$500(LocalChannel.java:49) [LocalChannel.class:4.1.9.Final]
+	at io.netty.channel.local.LocalChannel$5.run(LocalChannel.java:397) [LocalChannel$5.class:4.1.9.Final]
+	at io.netty.channel.DefaultEventLoop.run(DefaultEventLoop.java:54) [DefaultEventLoop.class:4.1.9.Final]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:858) [SingleThreadEventExecutor$5.class:4.1.9.Final]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_312]
+[01:32:06] [Netty Local Client IO #0/ERROR] [FML]: Network Disconnect: A fatal error has occurred, this connection is terminated
+[01:32:06] [Server thread/INFO] [minecraft/NetHandlerPlayServer]: Player9 lost connection: Disconnected
+[01:32:06] [Server thread/INFO] [minecraft/MinecraftServer]: Player9 left the game
+[01:32:06] [Server thread/INFO] [minecraft/NetHandlerPlayServer]: Stopping singleplayer server as player logged out
+[01:32:07] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
+[01:32:07] [Server thread/INFO] [minecraft/MinecraftServer]: Saving players
+[01:32:07] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
+[01:32:07] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'Bop'/overworld
+[01:32:07] [Server thread/INFO] [FML]: Unloading dimension 0
+[01:32:14] [Server thread/INFO] [FML]: Applying holder lookups
+[01:32:14] [Server thread/INFO] [FML]: Holder lookups applied
+[01:32:26] [Client thread/INFO] [minecraft/Minecraft]: Stopping!
+[01:32:26] [Client thread/INFO] [minecraft/SoundManager]: SoundSystem shutting down...
+[01:32:26] [Client thread/WARN] [minecraft/SoundManager]: Author: Paul Lamb, www.paulscode.com
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 5.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/4.9/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD SUCCESSFUL in 3m 26s
+12 actionable tasks: 8 executed, 4 up-to-date
