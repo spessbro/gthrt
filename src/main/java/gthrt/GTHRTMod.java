@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.nbt.NBTTagCompound;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
@@ -20,12 +21,14 @@ import static gregtech.api.unification.material.Materials.*;
 
 import gthrt.common.HRTItems;
 import gthrt.common.market.MarketData;
+import gthrt.common.market.MarketPacket;
 import gthrt.command.CommandMarket;
 import gthrt.common.market.MarketHandler;
 
+/*import net.minecraftforge.fml.common.event.FMLConstructionEvent;
+import gregtechfoodoption.network.SPacketAppleCoreFoodDivisorUpdate;*/
 
-
-@Mod(modid = GTHRTMod.MODID, name = GTHRTMod.NAME, version = GTHRTMod.VERSION,dependencies = "required-after:gregtech@(2.3.4,);")
+@Mod(modid = GTHRTMod.MODID, name = GTHRTMod.NAME, version = GTHRTMod.VERSION,dependencies = "required-after:gregtech@(2.3.4,);"+"required-after:gregtechfoodoption")
 public class GTHRTMod
 {
     public static final String MODID = "gthrt";
@@ -38,7 +41,9 @@ public class GTHRTMod
     public void preInit(FMLPreInitializationEvent event)
     {
         logger = event.getModLog();
+		MarketHandler.populateMarkets();
 		HRTItems.preInit();
+		GregTechAPI.networkHandler.registerPacket(MarketPacket.class);
     }
 
 	@EventHandler
@@ -53,10 +58,13 @@ public class GTHRTMod
 				MarketData marketData = (MarketData) world.loadData(MarketData.class, MarketData.DATA_NAME);
 				if(marketData==null){
 					marketData = new MarketData(MarketData.DATA_NAME);
-					MarketHandler.populateMarkets();
 					world.setData(MarketData.DATA_NAME,marketData);
 				}
 				MarketData.setInstance(marketData);
+				logger.info("Market Types available {}",MarketHandler.marketTypes.size());
+				if(MarketHandler.markets.isEmpty()){
+					marketData.readFromNBT(new NBTTagCompound());
+				}
     			if(MarketHandler.markets.size()==0){logger.error("No Markets?");}
     			else{logger.info("Markets Loaded, markets size >> {}", MarketHandler.markets.size());}
 			}
@@ -64,12 +72,15 @@ public class GTHRTMod
   	}
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        // some example code
+    public void init(FMLInitializationEvent event){
+        MarketHandler.handleItems();
     }
-	@EventHandler
+    /*@EventHandler
+    public void conctruct(FMLConstructionEvent event){
+    	new SPacketAppleCoreFoodDivisorUpdate();
+    }*/
+	/*@EventHandler
 	public void onWorldLoad(WorldEvent.Load event){
-	}
+	}*/
 
 }

@@ -1,10 +1,13 @@
 package gthrt;
 
 import gregtech.api.GregTechAPI;
+
 import gthrt.common.HRTMats;
 import gthrt.common.HRTItems;
-import gthrt.common.market.MarketData;
+import gthrt.common.market.MarketHandler;
 import gthrt.command.CommandMarket;
+import gthrt.common.market.MarketPacket;
+import gthrt.common.market.MarketData;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -14,6 +17,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 import javax.annotation.Nonnull;
 
@@ -39,10 +44,10 @@ public class HRTEvents{
     public static void onWorldSaveEvent(WorldEvent.Save event) {
         MarketData.setDirty();
     }
-/*    @SubscribeEvent
+    @SubscribeEvent
     public static void onPlayerLoginEvent(PlayerEvent.PlayerLoggedInEvent event) {
-    	if (!event.player.getEntityWorld().isRemote) {
-
+    	if (!event.player.getEntityWorld().isRemote && event.player instanceof EntityPlayerMP) {
+			GregTechAPI.networkHandler.sendTo(new MarketPacket(MarketHandler.markets),(EntityPlayerMP) event.player);
     	}
-    }*/
+    }
 }

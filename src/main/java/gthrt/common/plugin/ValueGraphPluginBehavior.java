@@ -25,8 +25,8 @@ import net.minecraft.entity.player.EntityPlayer;
 
 
 public class ValueGraphPluginBehavior extends MonitorPluginBaseBehavior{
-	public static final List<Long> data = Arrays.asList(13L,44L,97L,88L,85L);
-	public static final List<Long> data1 = Arrays.asList(62L, 54L, 44L, 85L, 25L);
+	public static final List<Float> data = Arrays.asList(1f,4f,9f,8f,5f);
+	public static final List<Float> data1 = Arrays.asList(6f, 5f, 4f, 8f, 1f);
 	public boolean bottom;
 
 	public void setConfig(boolean _bottom){
@@ -64,16 +64,19 @@ public class ValueGraphPluginBehavior extends MonitorPluginBaseBehavior{
 	@SideOnly(Side.CLIENT)
     @Override
     public void renderPlugin(float partialTicks, RayTraceResult rayTraceResult) {
-    	int i = 0;
-
+    	int i = 1;
+		//GTHRTMod.logger.info("{}",MarketHandler.markets.get("PersonalHygiene").valueHistory.size());
     	for(String s : MarketHandler.markets.keySet()){
+
 			Market m = MarketHandler.markets.get(s);
 			RenderUtil.renderLineChart(m.valueHistory,
-			10,-0.5f, 0.5f, 1, 1, bottom ? 0f : 0.01f, m.color,i);
+			10,-0.5f, 0.5f, 1, 1, bottom ? 0f : 0.01f,m.color,0.9f,0);
 			i++;
     	}
-        /*RenderUtil.renderLineChart(data,100,-0.5f, 0.5f, 1, 1, bottom ? 0f : 0.01f, 0XFF03FF00,0);
-        RenderUtil.renderLineChart(data1,100,-0.5f, 0.5f, 1, 1, bottom ? 0f : 0.01f, 0XFFFF0300,1f);*/
+    	if(MarketHandler.marketTypes.keySet().size()==0){
+        	RenderUtil.renderLineChart(data,10,-0.5f, 0.5f, 1, 1, bottom ? 0f : 0.01f, 0X03FF00,1f,0);
+        	RenderUtil.renderLineChart(data1,10,-0.5f, 0.5f, 1, 1, bottom ? 0f : 0.01f, 0XFF0300,1f,1f);
+        }
     }
 	@Override
 	public WidgetPluginConfig customUI(WidgetPluginConfig widgetGroup, IUIHolder holder, EntityPlayer entityPlayer) {

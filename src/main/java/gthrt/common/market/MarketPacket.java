@@ -10,8 +10,6 @@ import gregtech.api.network.IClientExecutor;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.nbt.NBTTagCompound;
-import lombok.NoArgsConstructor;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,9 +17,11 @@ import java.util.Map;
 import gthrt.GTHRTMod;
 import gthrt.common.HRTConfig;
 
-@NoArgsConstructor
+
 public class MarketPacket implements IPacket, IClientExecutor {
 	private Map<String,Market> markets;
+	public MarketPacket(){}
+
 	public MarketPacket(Map<String,Market> _markets){
 		markets = _markets;
 	}
@@ -31,22 +31,23 @@ public class MarketPacket implements IPacket, IClientExecutor {
 		for(Map.Entry<String,Market> e : markets.entrySet()){
 			tag.setTag(e.getKey(),e.getValue().writeToNBT());
 		}
+		GTHRTMod.logger.info("Encode >> {}" ,tag.toString());
 		ByteBufUtils.writeTag(buffer,tag);
 
 	}
 	@Override
 	public void decode(PacketBuffer buffer) {
-		markets.clear();
+		markets = new HashMap<>();
 		NBTTagCompound compound = ByteBufUtils.readTag(buffer);
-		for(String i : HRTConfig.MarketTypes){
-			markets.put(i.substring(0, i.indexOf('|')),
-						Market.readFromNBT(compound.getCompoundTag(i.substring(0, i.indexOf('|'))),i));
+		for(Map.Entry<String,MarketBase> i : MarketHandler.marketTypes.entrySet()){
+			Market m = Market.readFromNBT(compound.getCompoundTag(i.getKey()),i.getValue());
+			markets.put(i.getKey(),m);
 		}
 	}
 	@SideOnly(Side.CLIENT)
     @Override
     public void executeClient(NetHandlerPlayClient handler) {
-    	if(MarketHandler.markets == null){GTHRTMod.logger.error("Ooops no markets on client"); return;}
         MarketHandler.markets = markets;
+        GTHRTMod.logger.info("Synced markets >> {}",MarketHandler.marketTypes.size());
     }
 }

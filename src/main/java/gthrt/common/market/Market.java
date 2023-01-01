@@ -7,33 +7,32 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.lang.Math;
 
-public class Market{
 
-	public String name;
-	public int baseValue;
-	public int scale;
-	public float volatility;
-	public float elasticity;
-	public int color;
+import gthrt.GTHRTMod;
+
+public class Market extends MarketBase{
 
 	public ArrayList<int[]> supplyModifiers;
 	public ArrayList<int[]> demandModifiers;
 	public ArrayList<Float> valueHistory;
 	public float currentValue;
 
-	public Market(String _name,int _baseValue,int _scale, float _volatility, float _elasticity,int _color){
-		name=_name;
-		baseValue=_baseValue;
-		scale=_scale;
-		volatility=_volatility;
-		elasticity=_elasticity;
-		color = _color;
+	public Market(String _name,float _baseValue,int _scale, float _volatility, float _elasticity,int _color){
+		super(_name,_baseValue,_scale,_volatility,_elasticity,_color);
 		supplyModifiers = new ArrayList<int[]>();
 		demandModifiers = new ArrayList<int[]>();
 		valueHistory = new ArrayList<Float>();
 		currentValue = baseValue;
 		valueHistory.add(currentValue);
+	}
+	public MarketBase toBase(){
+    	return new MarketBase(name,baseValue,scale,volatility,elasticity,color);
+    }
 
+
+	public static Market fromBase(MarketBase in){
+		GTHRTMod.logger.info("Turning base {} into market", in.name);
+		return new Market(in.name,in.baseValue,in.scale,in.volatility,in.elasticity,in.color);
 	}
 
 
@@ -57,7 +56,7 @@ public class Market{
 		if(random.nextFloat()<volatility){
 			(random.nextBoolean() ? demandModifiers : supplyModifiers).add(makeModifier(random));
 		}
-		currentValue += ((getModifiers(false)/getModifiers(true))*baseValue-currentValue)*elasticity;
+		currentValue += ((getModifiers(false)/getModifiers(true)+1)*baseValue-currentValue)*elasticity;
 		valueHistory.add(currentValue);
 		if(valueHistory.size()>20){
 			valueHistory.remove(0);
@@ -68,6 +67,7 @@ public class Market{
 		int out = scale;
 		for(int[] i : supplyOrDemand ? supplyModifiers : demandModifiers){
 			out += i[0];
+			if(out==0){out=(int) Math.round(scale*0.1);break;}
 		}
 		return out;
 	}
@@ -80,18 +80,24 @@ public class Market{
 
 	public NBTTagCompound writeToNBT(){
 		NBTTagCompound out = new NBTTagCompound();
-		out.setIntArray("supplyMods",concatIntList(supplyModifiers));
-		out.setIntArray("demandMods",concatIntList(demandModifiers));
+		out.setIntArray("supplyMods",concatIntList(this.supplyModifiers));
+		out.setIntArray("demandMods",concatIntList(this.demandModifiers));
 		int[] bits = new int[valueHistory.size()];
-		for(int i=0;i<valueHistory.size();i++){
-			bits[i]=Float.floatToIntBits(valueHistory.get(i));
+		for(int i=0;i<this.valueHistory.size();i++){
+			bits[i]=Float.floatToIntBits(this.valueHistory.get(i));
 		}
 		out.setIntArray("valueHistory",bits);
+		GTHRTMod.logger.info("Writing Market to NBT >> {}", out.toString());
 		return out;
 
 	}
-	public static Market readFromNBT(NBTTagCompound in,String baseData){
-		Market out = parseFromString(baseData);
+	public static Market readFromNBT(NBTTagCompound in,MarketBase base){
+		if(in.getKeySet().isEmpty()){
+			GTHRTMod.logger.error("Tried to parse invalid market nbt");
+			return null;}
+		GTHRTMod.logger.info("Reading Market to NBT >> {}", in);
+		Market out = fromBase(base);
+
 		int[] supply = in.getIntArray("supplyMods");
 		for(int i =0;i<supply.length;i+=2){
 			out.supplyModifiers.add(new int[] {supply[i],supply[i+1]});
@@ -107,10 +113,7 @@ public class Market{
 		out.currentValue=out.valueHistory.get(history.length);
 		return out;
 	}
-	public static Market parseFromString(String in){
-		String[] data = in.split("\\|", -1);
-		return new Market(data[0],Integer.parseInt(data[1]),Integer.parseInt(data[2]),Float.parseFloat(data[3]),Float.parseFloat(data[4]),Integer.parseInt(data[5],16));
-	}
+
 
 	private static int[] concatIntList(ArrayList<int[]> in){
 		int[] out = new int[in.size()*2];
@@ -119,5 +122,10 @@ public class Market{
 			out[i*2+1]=in.get(i)[1];
 		}
 		return out;
+	}
+
+	public float getChange(){
+		if(valueHistory.size()<2){return 0f;}
+		return (currentValue/valueHistory.get(valueHistory.size()-2))-1f;
 	}
 }

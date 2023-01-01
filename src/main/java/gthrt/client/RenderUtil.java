@@ -12,7 +12,7 @@ import java.util.List;
 public class RenderUtil{
 
 
-	public static void renderLineChart(List<Float> data, long max, float x, float y, float width, float height, float lineWidth, int color,float offset) {
+	public static void renderLineChart(List<Float> data, long max, float x, float y, float width, float height, float lineWidth, int color,float alpha,float offset) {
         float durX = data.size() > 1 ? width / (data.size() - 1) : 0;
         float hY = max > 0 ? height / max : 0;
 
@@ -21,7 +21,7 @@ public class RenderUtil{
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
         GlStateManager.enablePolygonOffset();
         GlStateManager.doPolygonOffset(offset,offset);
-        GlStateManager.color(((color >> 16) & 0xFF) / 255f, ((color >> 8) & 0xFF) / 255f, (color & 0xFF) / 255f, ((color >> 24) & 0xFF) / 255f);
+        GlStateManager.color(((color >> 16) & 0xFF) / 255f, ((color >> 8) & 0xFF) / 255f, (color & 0xFF) / 255f, alpha);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);

@@ -21,7 +21,6 @@ import gthrt.common.HRTConfig;
 public class MarketData extends WorldSavedData{
 	public static final String DATA_NAME = GTHRTMod.MODID + "_MarketData";
 	private static MarketData INSTANCE;
-
 	public MarketData(String s){
 		super(s);
 	}
@@ -39,10 +38,14 @@ public class MarketData extends WorldSavedData{
 	}
 	@Override
 	public void readFromNBT(NBTTagCompound in){
-		MarketHandler.markets.clear();
-		for(int i=0;i<HRTConfig.MarketTypes.length;i++){
-			MarketHandler.markets.put(HRTConfig.MarketTypes[i].substring(0, HRTConfig.MarketTypes[i].indexOf('|')),
-			Market.readFromNBT(in.getCompoundTag(HRTConfig.MarketTypes[i].substring(0, HRTConfig.MarketTypes[i].indexOf('|'))),HRTConfig.MarketTypes[i]));
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+			NBTTagCompound data = in.getCompoundTag("marketData");
+			MarketHandler.markets.clear();
+			for(Map.Entry<String,MarketBase> i : MarketHandler.marketTypes.entrySet()){
+				NBTTagCompound tag = data.getCompoundTag(i.getKey());
+				MarketHandler.markets.put(i.getKey(),
+				!tag.getKeySet().isEmpty() ? Market.readFromNBT(tag,i.getValue()) : Market.fromBase(i.getValue()));
+			}
 		}
 	}
     public static void setDirty() {
