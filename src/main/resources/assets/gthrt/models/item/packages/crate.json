@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer1": "gthrt:packages/cratelabel",
+    "layer0": "gthrt:packages/crate"
+  }
+}

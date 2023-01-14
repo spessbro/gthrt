@@ -1,0 +1,25 @@
+
+metaitem.plugin.graph.name=Graph Plugin
+metaitem.toothbrush.name=Toothbrush
+metaitem.toothbrush.tooltip=Don't forget to floss
+metaitem.toothpaste.name=Toothpaste
+metaitem.toothpaste.tooltip=9/10 Doctors also recommend exercise
+metaitem.soap.name=Soap
+metaitem.soap.tooltip=Don't drop it
+metaitem.soap_base.name=Soap Base
+metaitem.soap_base.tooltip=Almost there
+metaitem.deodorant.name=Deodorant
+metaitem.deodorant.tooltip=You should keep some for yourself
+
+material.sodium_fluorophosphate=Sodium Fluorophosphate
+material.aluminium_hydroxide=Aluminium Hydroxide
+material.sodium_aluminate=Sodium Aluminate
+material.ammonium_fluoride=Ammonium Fluoride
+material.toothpaste_paste=Toothpaste Paste
+material.difluorophosphoric_acid=Difluorophosphoric Acid
+material.flowery_essence=Flowery Essence
+material.perfume=Perfume
+material.deodorant=Deodorant
+
+
+

@@ -15,7 +15,7 @@ import java.lang.Math;
 
 public class MarketValueComponent implements IItemBehaviour{
 	public String marketName;
-	float amount;
+	public float amount;
 
 	public MarketValueComponent(String _marketName, float _amount){
 		if(MarketHandler.marketTypes.get(_marketName) == null) return;

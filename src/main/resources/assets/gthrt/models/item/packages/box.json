@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "gthrt:packages/box",
-    "layer1": "gthrt:packages/boxlabel"
+    "layer1": "gthrt:packages/boxlabel",
+    "layer0": "gthrt:packages/boxfull"
   }
 }

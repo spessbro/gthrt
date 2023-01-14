@@ -28,6 +28,7 @@ public class HRTEvents{
 	@SubscribeEvent
 	public static void onMaterialsInit(GregTechAPI.MaterialEvent event) {
 		HRTMats materials = new HRTMats();
+		materials.handleChains();
 	}
 
     @SubscribeEvent

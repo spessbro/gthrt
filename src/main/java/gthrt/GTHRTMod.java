@@ -11,38 +11,43 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.Loader;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.Materials;
+import gregtech.common.items.MetaItems;
 import static gregtech.api.unification.material.Materials.*;
 
 import gthrt.common.HRTItems;
+import gthrt.common.HRTUtils;
 import gthrt.common.market.MarketData;
 import gthrt.common.market.MarketPacket;
 import gthrt.command.CommandMarket;
 import gthrt.common.market.MarketHandler;
 
+import gthrt.common.items.chains.PersonalHygieneChain;
+
 /*import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import gregtechfoodoption.network.SPacketAppleCoreFoodDivisorUpdate;*/
 
-@Mod(modid = GTHRTMod.MODID, name = GTHRTMod.NAME, version = GTHRTMod.VERSION,dependencies = "required-after:gregtech@(2.3.4,);"+"required-after:gregtechfoodoption")
+@Mod(modid = GTHRTMod.MODID, name = GTHRTMod.NAME, version = GTHRTMod.VERSION,dependencies = "required-after:gregtech@(2.3.4,);"+"after:gregtechfoodoption")
 public class GTHRTMod
 {
     public static final String MODID = "gthrt";
     public static final String NAME = "GregTech Highly Randomized Trade";
     public static final String VERSION = "0.0";
     public static Logger logger;
-
+	public static final boolean hasGTFO = Loader.isModLoaded("gregtechfoodoption");
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         logger = event.getModLog();
-		MarketHandler.populateMarkets();
 		HRTItems.preInit();
+		MarketHandler.populateMarkets();
 		GregTechAPI.networkHandler.registerPacket(MarketPacket.class);
     }
 
@@ -69,18 +74,22 @@ public class GTHRTMod
     			else{logger.info("Markets Loaded, markets size >> {}", MarketHandler.markets.size());}
 			}
         }
+
+    	logger.info("1 dynamite is worth {} credits",MarketHandler.getValue(MetaItems.DYNAMITE.getStackForm()));
   	}
 
     @EventHandler
     public void init(FMLInitializationEvent event){
         MarketHandler.handleItems();
+        PersonalHygieneChain.registerRecipes();
     }
     /*@EventHandler
     public void conctruct(FMLConstructionEvent event){
     	new SPacketAppleCoreFoodDivisorUpdate();
-    }*/
-	/*@EventHandler
+    }
+	@EventHandler
 	public void onWorldLoad(WorldEvent.Load event){
+
 	}*/
 
 }

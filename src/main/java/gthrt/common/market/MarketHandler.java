@@ -16,15 +16,23 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.client.resources.I18n;
 
 import gregtech.api.unification.stack.ItemAndMetadata;
+import gregtech.common.items.MetaItems;
+import gregtech.api.items.metaitem.MetaItem;
+import gregtech.api.items.metaitem.stats.IItemComponent;
 
 import java.util.Map;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.List;
 import java.util.Random;
 import javax.annotation.Nonnull;
 import java.util.AbstractMap;
 
 import gthrt.GTHRTMod;
+import gthrt.common.HRTUtils;
 import gthrt.common.HRTConfig;
+import gthrt.common.items.MarketValueComponent;
 
 
 
@@ -32,32 +40,64 @@ import gregtech.api.GregTechAPI;
 
 public class MarketHandler{
 	private static final String DATA_NAME = GTHRTMod.MODID + "_MarketData";
-	public static Map<String,MarketBase> marketTypes = new LinkedHashMap<String,MarketBase>();
-	public static Map<String,Market> markets = new LinkedHashMap<String,Market>();
+	public static Map<String,MarketBase> marketTypes = new HashMap<String,MarketBase>();
+	public static Map<String,Market> markets = new HashMap<String,Market>();
+
+	public static final boolean BUY = true;
+	public static Map<String,ItemAndMetadata> buyMarkets = new HashMap<String,ItemAndMetadata>();
+	public static final boolean SELL = false;
+	public static Set<String> sellMarkets = new HashSet<String>();
+
 	public static int ticks = 1;
 
-	public static Map<ItemAndMetadata, Map.Entry<String,Float>> sellableItems = new LinkedHashMap<ItemAndMetadata, Map.Entry<String,Float>>();
+	public static final ItemAndMetadata airItem =  new ItemAndMetadata(Items.AIR,0);
+
+	public static Map<ItemAndMetadata, Map.Entry<String,Float>> sellableItems = new HashMap<ItemAndMetadata, Map.Entry<String,Float>>();
 
 	//putting this here for now
 	public static void populateMarkets(){
-		defineMarket(new MarketBase("personalhygiene",1,1000,0.5f,0.5f,0x1466CD));
-		defineMarket(new MarketBase("explosives",3,400,0.8f,0.3f,0xbc1827));
+		defineMarket(new MarketBase("rubber",1,3000,0.1f,0.1f,0xffcc42),BUY);
+
+		defineMarket(new MarketBase("personalhygiene",1,1000,0.5f,0.5f,0x1466CD),SELL);
+		defineMarket(new MarketBase("explosives",3,400,0.8f,0.3f,0xbc1827),SELL);
 	}
 	public static void handleItems(){
+		//buying
+		makeBuyable(MetaItems.STICKY_RESIN.getStackForm(1),"rubber");
+		//selling
 		makeSellable(new ItemStack(Blocks.TNT),"explosives", 0.05f);
+
 	}
 	public static void makeSellable(ItemStack item, String marketName, float value){
-		if(!marketTypes.containsKey(marketName)){
+		if(!marketTypes.containsKey(marketName) || !sellMarkets.contains(marketName)){
 			GTHRTMod.logger.error("Tried to add sellable to invalid market");
 			return;
 		};
 		sellableItems.put(new ItemAndMetadata(item),new AbstractMap.SimpleEntry<String,Float>(marketName, value));
 	}
 
+	public static void makeBuyable(ItemStack item, String marketName){
+		if(!marketTypes.containsKey(marketName) || !buyMarkets.containsKey(marketName)){
+			GTHRTMod.logger.error("Tried to set buyable to invalid market");
+			return;
+		}
+		buyMarkets.put(marketName,new ItemAndMetadata(item));
+
+	}
 
 
-	public static void defineMarket(MarketBase in){
+	public static void defineMarket(MarketBase in,boolean buyOrSell){
 		marketTypes.put(in.name,in);
+		if(buyOrSell){
+			buyMarkets.put(in.name,airItem);
+		}
+		else{
+			sellMarkets.add(in.name);
+		}
+	}
+
+	public static Map<String,Market> getMarkets(boolean buyOrSell){
+		return HRTUtils.maskMap(markets, buyOrSell ? buyMarkets.keySet() : sellMarkets);
 	}
 
 	@SubscribeEvent
@@ -86,11 +126,23 @@ public class MarketHandler{
 	if(m==null){return marketName;}
 	return I18n.format("market.tooltip",m.getChange() == 0f ? TextFormatting.GRAY : m.getChange()>0 ? TextFormatting.GREEN : TextFormatting.RED,
 									value,I18n.format("market.names."+marketName),
-									m.getChange() == 0f ? "=" : m.getChange()>0 ? "▲" : "▼",Math.abs(m.getChange())*100,
-									m.currentValue*value);
+									m.getChange() == 0f ? "=" : m.getChange()>0 ? "▲" : "▼",HRTUtils.variableRound(Math.abs(m.getChange())*100),
+									HRTUtils.variableRound(m.currentValue*value));
 	}
 	public static String makeTooltip(Map.Entry<String,Float> in){
 		return makeTooltip(in.getKey(),in.getValue());
 	}
+	public static Map.Entry<String,Float> getValue(ItemStack i){
+		if(markets.size() == 0){return null;}
+		if(i.getItem() instanceof MetaItem){
+			for(IItemComponent c : (List<IItemComponent>) ((MetaItem) i.getItem()).getItem(i).getAllStats()){
+				if(c instanceof MarketValueComponent){return new AbstractMap.SimpleEntry<String,Float>(((MarketValueComponent)c).marketName,((MarketValueComponent)c).amount);}
+			}
+			return null;
+		}
+		else{
+			return sellableItems.get(new ItemAndMetadata(i));
 
+		}
+	}
 }

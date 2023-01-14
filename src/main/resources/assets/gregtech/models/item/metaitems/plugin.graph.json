@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "gregtech:items/metaitems/plugin.graph"
+    "layer0": "gthrt:items/metaitems/plugin.graph"
   }
 }

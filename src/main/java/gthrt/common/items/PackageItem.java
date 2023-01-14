@@ -9,6 +9,9 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 
 import gregtech.api.items.metaitem.StandardMetaItem;
+import gregtech.api.unification.material.Materials;
+import gregtech.api.unification.material.Material;
+
 
 import gthrt.common.market.MarketHandler;
 import gthrt.common.market.MarketBase;
@@ -17,25 +20,37 @@ import gthrt.GTHRTMod;
 import javax.annotation.Nonnull;
 
 public class PackageItem extends StandardMetaItem{
+	private static final Material[] materialColors ={Materials.Steel,
+												Materials.Aluminium,
+												Materials.Titanium};
 
 	@Override
     public void registerSubItems() {
     	int i =0;
-        for (MarketBase m : MarketHandler.marketTypes.values()) {
-        	addItem(i, String.format("%s_package",m.name)).addComponents(new MarketValueComponent(m.name,1f));;
-        	i++;
+        for (String m : MarketHandler.sellMarkets) {
+        	addItem(i, String.format("%s_package",m)).addComponents(new MarketValueComponent(m,1f));
+        	addItem(i+1, String.format("%s_crate_steel",m)).addComponents(new MarketValueComponent(m,4f));
+        	addItem(i+2, String.format("%s_crate_aluminum",m)).addComponents(new MarketValueComponent(m,8f));
+        	addItem(i+3, String.format("%s_crate_titanium",m)).addComponents(new MarketValueComponent(m,32f));
+        	i+=4;
         }
     }
 
 	@Override
     @SideOnly(Side.CLIENT)
     protected int getColorForItemStack(ItemStack stack, int tintIndex) {
-        if (tintIndex == 1) {
-            MarketBase m = MarketHandler.marketTypes.get( ((MarketValueComponent)getBehaviours(stack).get(0)).marketName);
-            if (m == null)
-                return 0xFFFFFF;
-            return m.color | 0xFF000000;
-        }
+        MarketBase m = MarketHandler.marketTypes.get( ((MarketValueComponent)getBehaviours(stack).get(0)).marketName);
+        int i = stack.getItemDamage();
+    	if (m == null)
+                return super.getColorForItemStack(stack, tintIndex);
+    	switch(tintIndex){
+    		case 0:
+    			if(i%4>0){return materialColors[i%4-1].getMaterialRGB() | 0x88000000;}
+    			break;
+    		case 1:
+            	return m.color | 0x88000000;
+    	}
+
         return super.getColorForItemStack(stack, tintIndex);
     }
 
@@ -43,16 +58,25 @@ public class PackageItem extends StandardMetaItem{
     @SideOnly(Side.CLIENT)
     @SuppressWarnings("ConstantConditions")
     public void registerModels() {
-    	ResourceLocation rL = new ResourceLocation(GTHRTMod.MODID,"packages/box");
-		ModelBakery.registerItemVariants(this,rL);
+    	ResourceLocation box = new ResourceLocation(GTHRTMod.MODID,"packages/box");
+    	ResourceLocation crate = new ResourceLocation(GTHRTMod.MODID,"packages/crate");
+		ModelBakery.registerItemVariants(this,box);
+		ModelBakery.registerItemVariants(this,crate);
 		for(short i : metaItems.keySet()){
-			metaItemsModels.put(i,new ModelResourceLocation(rL, "inventory"));
+			if(i%4<1){ metaItemsModels.put(i,new ModelResourceLocation(box, "inventory"));}
+			else{metaItemsModels.put(i,new ModelResourceLocation(crate, "inventory"));}
+
 		}
     }
     @Nonnull
     @Override
     public String getItemStackDisplayName(ItemStack stack) {
-    	return I18n.format("market.names."+((MarketValueComponent)getBehaviours(stack).get(0)).marketName)+" "+I18n.format("package.name").toLowerCase();
+    	if(stack.getItemDamage()%4==0){
+    		return I18n.format("market.names."+((MarketValueComponent)getBehaviours(stack).get(0)).marketName)+" "+I18n.format("package.name").toLowerCase();
+    	}
+    	else{
+    		return materialColors[stack.getItemDamage()%4-1].getLocalizedName()+" "+I18n.format("market.names."+((MarketValueComponent)getBehaviours(stack).get(0)).marketName)+" "+I18n.format("crate.name").toLowerCase();
+    	}
     }
 
 }

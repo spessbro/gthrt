@@ -58,7 +58,7 @@ public class Market extends MarketBase{
 		}
 		currentValue += ((getModifiers(false)/getModifiers(true)+1)*baseValue-currentValue)*elasticity;
 		valueHistory.add(currentValue);
-		if(valueHistory.size()>20){
+		if(valueHistory.size()>=20){
 			valueHistory.remove(0);
 		}
 
@@ -72,7 +72,7 @@ public class Market extends MarketBase{
 		return out;
 	}
 	public int[] makeModifier(Random random){
-		int[] out = {Math.round((random.nextFloat()*4-2)*volatility*scale),random.nextInt(5)+1};
+		int[] out = {Math.toIntExact(Math.round((random.nextFloat()-0.5)*volatility*scale)),random.nextInt(2)+1};
 		return out;
 	}
 

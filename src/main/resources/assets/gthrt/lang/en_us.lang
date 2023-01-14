@@ -3,3 +3,4 @@ market.tooltip=%s%d %s-%s%d%%(%dG)
 market.names.personalhygiene=Personal Hygiene
 market.names.explosives=Explosives
 package.name=Package
+package.name=Crate
