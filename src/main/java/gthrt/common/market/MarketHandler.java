@@ -27,7 +27,9 @@ import java.util.Set;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.Nonnull;
-import java.util.AbstractMap;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import gthrt.GTHRTMod;
 import gthrt.common.HRTUtils;
@@ -52,32 +54,18 @@ public class MarketHandler{
 
 	public static final ItemAndMetadata airItem =  new ItemAndMetadata(Items.AIR,0);
 
-	public static Map<ItemAndMetadata, Map.Entry<String,Float>> sellableItems = new HashMap<ItemAndMetadata, Map.Entry<String,Float>>();
+	public static Map<ItemAndMetadata, Pair<String,Float>> sellableItems = new HashMap<ItemAndMetadata, Pair<String,Float>>();
 
 	//putting this here for now
 	public static void populateMarkets(){
-		defineMarket(new MarketBase("rubber",1,3000,0.1f,0.1f,0xffcc42),BUY);
-
-		defineMarket(new MarketBase("personalhygiene",1,1000,0.5f,0.5f,0x1466CD),SELL);
-		defineMarket(new MarketBase("explosives",3,400,0.8f,0.3f,0xbc1827),SELL);
-	}
-	public static void handleItems(){
-		//buying
-		makeBuyable(MetaItems.STICKY_RESIN.getStackForm(1),"rubber");
-		//selling
-		makeSellable(new ItemStack(Blocks.TNT),"explosives", 0.05f);
-
+		defineBuyMarket(new MarketBase("rubber",1,3000,0.1f,0.1f,0xffcc42),MetaItems.STICKY_RESIN.getStackForm());
 	}
 	public static void makeSellable(ItemStack item, String marketName, float value){
-		if(!marketTypes.containsKey(marketName) || !sellMarkets.contains(marketName)){
-			GTHRTMod.logger.error("Tried to add sellable to invalid market");
-			return;
-		};
-		sellableItems.put(new ItemAndMetadata(item),new AbstractMap.SimpleEntry<String,Float>(marketName, value));
+		sellableItems.put(new ItemAndMetadata(item),new ImmutablePair<String,Float>(marketName, value));
 	}
 
 	public static void makeBuyable(ItemStack item, String marketName){
-		if(!marketTypes.containsKey(marketName) || !buyMarkets.containsKey(marketName)){
+		if(!buyMarkets.containsKey(marketName)){
 			GTHRTMod.logger.error("Tried to set buyable to invalid market");
 			return;
 		}
@@ -86,14 +74,21 @@ public class MarketHandler{
 	}
 
 
-	public static void defineMarket(MarketBase in,boolean buyOrSell){
+	public static void defineSellMarket(MarketBase in){
 		marketTypes.put(in.name,in);
-		if(buyOrSell){
-			buyMarkets.put(in.name,airItem);
-		}
-		else{
-			sellMarkets.add(in.name);
-		}
+		sellMarkets.add(in.name);
+	}
+
+	public static void defineBuyMarket(MarketBase in,ItemAndMetadata item){
+		marketTypes.put(in.name,in);
+		buyMarkets.put(in.name,item);
+	}
+	public static void defineBuyMarket(MarketBase in){
+		defineBuyMarket(in, airItem); //In case we generate the market before the sellable item.
+	}
+	public static void defineBuyMarket(MarketBase in,ItemStack stack){
+		marketTypes.put(in.name,in);
+		buyMarkets.put(in.name,new ItemAndMetadata(stack));
 	}
 
 	public static Map<String,Market> getMarkets(boolean buyOrSell){
@@ -135,8 +130,10 @@ public class MarketHandler{
 	public static Map.Entry<String,Float> getValue(ItemStack i){
 		if(markets.size() == 0){return null;}
 		if(i.getItem() instanceof MetaItem){
-			for(IItemComponent c : (List<IItemComponent>) ((MetaItem) i.getItem()).getItem(i).getAllStats()){
-				if(c instanceof MarketValueComponent){return new AbstractMap.SimpleEntry<String,Float>(((MarketValueComponent)c).marketName,((MarketValueComponent)c).amount);}
+			GTHRTMod.logger.info("ItemStack {} is MetaItem with stats {} long",i,((MetaItem) i.getItem()).getItem(i).getAllStats().size());
+			for(IItemComponent c :(List<IItemComponent>) ((MetaItem) i.getItem()).getItem(i).getAllStats()){
+
+				if(c instanceof MarketValueComponent){return new ImmutablePair<String,Float>(((MarketValueComponent)c).marketName,((MarketValueComponent)c).amount*i.getCount());}
 			}
 			return null;
 		}

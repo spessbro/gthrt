@@ -1,0 +1,25 @@
+package gthrt.common.items.chains;
+
+import net.minecraftforge.common.config.Config;
+
+
+import gthrt.GTHRTMod;
+import gthrt.common.market.MarketHandler;
+import gthrt.common.market.MarketBase;
+
+@Config(modid=GTHRTMod.MODID)
+public class TemplateChain extends AbstractMarketChain{
+	private static final String MARKET_KEY = "TEMPLATE";
+	@Config.Name("enable"+MARKET_KEY+"chain")
+	boolean enable = true;
+	public static void registerItems(int offset){};
+	public static void handleMaterials(int offset){};
+	public static void registerRecipes(){};
+	public static void registerMarket(){
+            MarketHandler.defineSellMarket(new MarketBase(MARKET_KEY,
+                                                          1,1000,
+                                                          0.5f,
+                                                          0.5f,
+                                                          0xFFFFFF));
+        };
+}

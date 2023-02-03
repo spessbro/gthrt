@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
+import net.minecraftforge.common.config.Config;
 
 import gregtech.api.unification.material.Material;
 import gregtech.api.items.metaitem.MetaItem;
@@ -16,7 +17,6 @@ import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.recipes.ingredients.IntCircuitIngredient;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.recipes.RecipeBuilder;
-import gregtech.api.unification.material.Material;
 import gregtech.api.recipes.GTRecipeHandler;
 import gregtech.api.fluids.fluidType.FluidTypes;
 import static gregtech.api.recipes.RecipeMaps.*;
@@ -34,6 +34,8 @@ import gregtechfoodoption.GTFOMaterialHandler;
 import gthrt.common.HRTItems;
 import gthrt.GTHRTMod;
 import gthrt.common.HRTUtils;
+import gthrt.common.market.MarketHandler;
+import gthrt.common.market.MarketBase;
 import gthrt.common.items.MarketValueComponent;
 
 
@@ -42,13 +44,21 @@ import java.util.Map;
 import java.util.ArrayList;
 
 
-public class PersonalHygieneChain{
+@Config(modid=GTHRTMod.MODID)
+public class PersonalHygieneChain extends AbstractMarketChain{
+	@Config.Ignore
+	private static final String MARKET_KEY = "personalhygiene";
+	@Config.Name("enable"+MARKET_KEY+"chain")
+	boolean enable = true;
+
 	public static MetaItem<?>.MetaValueItem TOOTHBRUSH;
+	@Config.Ignore
 	public static final Map<Material,Integer> brissleMaterials = new HashMap<Material,Integer>()
 	{{;
 		put(SiliconeRubber,3);
 		put(Polycaprolactam,6);
 	}};
+	@Config.Ignore
 	public static final Map<Material,Integer> stickMaterials = new HashMap<Material,Integer>()
 	{{;
 		put(Polyethylene,2);
@@ -57,29 +67,13 @@ public class PersonalHygieneChain{
 	}};
 
 	public static MetaItem<?>.MetaValueItem TOOTHPASTE;
-	public static final Material Fluorophosphate = new Material.Builder(24000, "sodium_fluorophosphate")
-            											.dust().color(0xccc746)
-            											.components(Sodium, 2,Phosphorus, 1, Fluorine, 1, Oxygen, 3)
-            											.build();
-    public static final Material AluminiumHydroxide = new Material.Builder(24001, "aluminium_hydroxide")
-            											.dust().iconSet(FLINT).color(0xf7a7bd)
-            											.components(Aluminium, 1, Oxygen, 1, Hydrogen, 1)
-            											.build();
-    public static final Material SodiumAluminate = new Material.Builder(24002, "sodium_aluminate")
-            											.dust().color(0xf6dfe6)
-            											.components( Sodium, 1,Aluminium, 1, Oxygen, 2)
-            											.build();
-    public static final Material ToothpastePaste = new Material.Builder(24003, "toothpaste_paste")
-            											.fluid().color(0xf0e292)
-            											.build();
-    public static final Material DifluorophosphoricAcid = new Material.Builder(24004, "difluorophosphoric_acid")
-            											.fluid().color(0xdbf50c)
-            											.components(Fluorine,2,Hydrogen,1,Oxygen,2,Phosphorus,1)
-            											.build();
-	public static final Material AmmoniumFluoride = new Material.Builder(24005, "ammonium_fluoride")
-            											.dust().color(0xadc85b).iconSet(FLINT)
-            											.components(Ammonia,1,Fluorine,1)
-            											.build();
+	public static Material Fluorophosphate;
+    public static Material AluminiumHydroxide;
+    public static Material SodiumAluminate;
+	public static Material AmmoniumFluoride;
+    public static Material DifluorophosphoricAcid;
+    public static Material ToothpastePaste;
+    @Config.Ignore
 	public static final Map<Material,Integer> tubeMaterials = new HashMap<Material,Integer>()
 	{{;
 		put(Steel,1);
@@ -87,11 +81,10 @@ public class PersonalHygieneChain{
 		put(PolyvinylChloride,3);
 		put(Lead,4);
 	}};
-
-
 	public static final Material[] abbrasiveMaterials = {AluminiumHydroxide,Zeolite,Calcite};
 
 	public static MetaItem<?>.MetaValueItem DEODORANT;
+	@Config.Ignore
 	public static final Map<Material,Integer> capMaterials = new HashMap<Material,Integer>()
 	{{;
 		put(Polyethylene,1);
@@ -99,17 +92,9 @@ public class PersonalHygieneChain{
 		put(Epoxy,3);
 		put(Polybenzimidazole,6);
 	}};
-	public static final Material FloweryEssence = new Material.Builder(24006, "flowery_essence")
-            											.fluid().color(0x8ab62b)
-            											.build();
-	public static final Material Perfume = new Material.Builder(24007, "perfume")
-            											.fluid().color(0xc5f55e).components(Methanol,1,Ethanol,1,FloweryEssence, 1)
-                										.flags(DISABLE_DECOMPOSITION)
-            											.build();
-    public static final Material Deodorant = new Material.Builder(24008, "deodorant")
-            											.fluid(FluidTypes.GAS).color(0x0d468c).components(FloweryEssence,1)
-                										.flags(DISABLE_DECOMPOSITION)
-            											.build();
+	public static Material FloweryEssence;
+	public static Material Perfume;
+    public static Material Deodorant;
 
 	public static MetaItem<?>.MetaValueItem SOAP;
 	public static MetaItem<?>.MetaValueItem SOAP_BASE;
@@ -117,35 +102,77 @@ public class PersonalHygieneChain{
 	public static Material LiquidSoap;
 
 
+	public static void registerMarket(){
+    		MarketHandler.defineSellMarket(new MarketBase(MARKET_KEY,
+                                                          2,2000,
+                                                          0.1f,
+                                                          0.5f,
+                                                          0xbc1827));
+    }
 
 
-
-	public static void handleMaterial(){
+	public static void handleMaterial(int offset){
 		//toothbrush
 		for(Material m : brissleMaterials.keySet()){m.addFlags(GENERATE_FINE_WIRE);}
 		for(Material m : stickMaterials.keySet()){m.addFlags(GENERATE_ROD);}
 		//toothpaste
 		for(Material m : tubeMaterials.keySet()){m.addFlags(GENERATE_FOIL);}
+		Fluorophosphate = new Material.Builder(offset, "sodium_fluorophosphate")
+            						.dust().color(0xccc746)
+            						.components(Sodium, 2,Phosphorus, 1, Fluorine, 1, Oxygen, 3)
+            						.build();
+		AluminiumHydroxide = new Material.Builder(offset+1, "aluminium_hydroxide")
+            						.dust().iconSet(FLINT).color(0xf7a7bd)
+            						.components(Aluminium, 1, Oxygen, 1, Hydrogen, 1)
+            						.build();
+		SodiumAluminate = new Material.Builder(offset+2, "sodium_aluminate")
+            						.dust().color(0xf6dfe6)
+            						.components( Sodium, 1,Aluminium, 1, Oxygen, 2)
+            						.build();
+        DifluorophosphoricAcid = new Material.Builder(offset+3, "difluorophosphoric_acid")
+            						.fluid().color(0xdbf50c)
+            						.components(Fluorine,2,Hydrogen,1,Oxygen,2,Phosphorus,1)
+            						.build();
+		AmmoniumFluoride = new Material.Builder(offset+4, "ammonium_fluoride")
+            						.dust().color(0xadc85b).iconSet(FLINT)
+            						.components(Ammonia,1,Fluorine,1)
+            						.build();
+		ToothpastePaste = new Material.Builder(offset+5, "toothpaste_paste")
+            						.fluid().color(0xf0e292)
+            						.build();
+
 		//deodorant
 		for(Material m : capMaterials.keySet()){m.addFlags(GENERATE_BOLT_SCREW);}
+		FloweryEssence = new Material.Builder(offset+6, "flowery_essence")
+            			.fluid().color(0x8ab62b)
+            			.build();
+		Perfume = new Material.Builder(offset+7, "perfume")
+            			.fluid().color(0xc5f55e).components(Methanol,1,Ethanol,1,FloweryEssence, 1)
+                		.flags(DISABLE_DECOMPOSITION)
+            			.build();
+		Deodorant = new Material.Builder(offset+8, "deodorant")
+            			.fluid(FluidTypes.GAS).color(0x0d468c).components(FloweryEssence,1)
+                		.flags(DISABLE_DECOMPOSITION)
+            			.build();
+
 		//soap
 		if(GTHRTMod.hasGTFO){
 			GTFOMaterialHandler.SodiumStearate.addFlags(DISABLE_DECOMPOSITION);
 		}
 		else{
-			LiquidSoap = new Material.Builder(24009, "liquid_soap")
+			LiquidSoap = new Material.Builder(offset+9, "liquid_soap")
             											.fluid().color(0x8a7e55)
             											.build();
 		}
 
 	}
-	public static void registerItems(){
+	public static void registerItems(int offset){
 
-    	TOOTHBRUSH 	= HRTItems.HRT_ITEMS.addItem(10,"toothbrush").addComponents(new MarketValueComponent("personalhygiene",0.01f));
-    	TOOTHPASTE 	= HRTItems.HRT_ITEMS.addItem(11,"toothpaste").addComponents(new MarketValueComponent("personalhygiene",0.02f));
-    	DEODORANT 	= HRTItems.HRT_ITEMS.addItem(12,"deodorant").addComponents(new MarketValueComponent("personalhygiene",0.02f));
-    	SOAP 		= HRTItems.HRT_ITEMS.addItem(13,"soap").addComponents(new MarketValueComponent("personalhygiene",0.05f));
-    	SOAP_BASE	= HRTItems.HRT_ITEMS.addItem(14,"soap_base");
+    	TOOTHBRUSH 	= HRTItems.addMarketItem(offset,"toothbrush",MARKET_KEY,0.01f);
+    	TOOTHPASTE 	= HRTItems.addMarketItem(offset+1,"toothpaste",MARKET_KEY,0.02f);
+    	DEODORANT 	= HRTItems.addMarketItem(offset+2,"deodorant",MARKET_KEY,0.02f);
+    	SOAP 		= HRTItems.addMarketItem(offset+3,"soap",MARKET_KEY,0.05f);
+    	SOAP_BASE	= HRTItems.HRT_ITEMS.addItem(offset+4,"soap_base");
 	}
 
 	public static void registerRecipes(){

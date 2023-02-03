@@ -12,6 +12,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.Item;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
@@ -27,8 +32,9 @@ import gthrt.common.market.MarketData;
 import gthrt.common.market.MarketPacket;
 import gthrt.command.CommandMarket;
 import gthrt.common.market.MarketHandler;
+import gthrt.common.HRTTiles;
+import gthrt.common.HRTChains;
 
-import gthrt.common.items.chains.PersonalHygieneChain;
 
 /*import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import gregtechfoodoption.network.SPacketAppleCoreFoodDivisorUpdate;*/
@@ -47,7 +53,7 @@ public class GTHRTMod
     {
         logger = event.getModLog();
 		HRTItems.preInit();
-		MarketHandler.populateMarkets();
+		HRTChains.initMarkets();
 		GregTechAPI.networkHandler.registerPacket(MarketPacket.class);
     }
 
@@ -74,15 +80,19 @@ public class GTHRTMod
     			else{logger.info("Markets Loaded, markets size >> {}", MarketHandler.markets.size());}
 			}
         }
-
-    	logger.info("1 dynamite is worth {} credits",MarketHandler.getValue(MetaItems.DYNAMITE.getStackForm()));
   	}
 
     @EventHandler
     public void init(FMLInitializationEvent event){
-        MarketHandler.handleItems();
-        PersonalHygieneChain.registerRecipes();
+		HRTTiles.init();
     }
+    @SubscribeEvent
+	public static void registerItems(RegistryEvent.Register<Item> event) {
+		HRTChains.initItems();
+	}@SubscribeEvent
+	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+        HRTChains.initRecipes();
+	}
     /*@EventHandler
     public void conctruct(FMLConstructionEvent event){
     	new SPacketAppleCoreFoodDivisorUpdate();

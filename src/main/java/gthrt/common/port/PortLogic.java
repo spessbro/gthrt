@@ -18,10 +18,15 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.NonNullList;
 
 import gthrt.common.HRTUtils;
 import gthrt.common.market.MarketHandler;
 import gthrt.common.market.Market;
+import gthrt.GTHRTMod;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -34,12 +39,10 @@ public class PortLogic extends MultiblockRecipeLogic {
 	List<String> marketQueue = new ArrayList<String>();
 
 	public PortLogic(MetaTileEntityPortControllerAbstract port){
-		init(port);
+		super(port);
+		marketQueue.add("rubber");
+		currentIndex = 0;
 	}
-	protected PortLogic init(MetaTileEntityPortControllerAbstract port){
-		return (PortLogic)new MTETrait(port);
-	}
-
 
 	public void toggleQueue(){
 		if(marketQueue.size()>1){
@@ -51,16 +54,18 @@ public class PortLogic extends MultiblockRecipeLogic {
 	@Override
 	protected Recipe findRecipe(long maxVoltage, IItemHandlerModifiable inputs, IMultipleTankHandler fluidInputs) {
 		MetaTileEntityPortControllerAbstract portController = (MetaTileEntityPortControllerAbstract) metaTileEntity;
+		GTHRTMod.logger.info("Looking for recipe with inputs {} and fuelsetting={}",GTUtility.itemHandlerToList(inputs),portController.fuelSetting);
 		//declare constructor variables early
 		List<GTRecipeInput> GTinputs= new ArrayList<GTRecipeInput>();
 
 		//sort out sellables,coins and circuits
 		boolean foundCircuit = false;
-		List<ItemStack> credits;
+		List<ItemStack> credits = new ArrayList<ItemStack>();
 		int budget = 0;
-		List<ItemStack> exports;
-		Market exportMarket;
+		List<ItemStack> exports = new ArrayList<ItemStack>();
+		Market exportMarket = null;
 		for(ItemStack i : GTUtility.itemHandlerToList(inputs)){
+			if(i.isEmpty()){continue;}
 			if(i.getItem() instanceof MetaItem){
 				if(IntCircuitIngredient.isIntegratedCircuit(i) && !foundCircuit){
 					foundCircuit = IntCircuitIngredient.getCircuitConfiguration(i) == currentIndex;
@@ -74,14 +79,13 @@ public class PortLogic extends MultiblockRecipeLogic {
 				}
 			}
 			Map.Entry<String,Float> v = MarketHandler.getValue(i); //only does exportables
-			if(v!= null){//probs should rewrite this but I'm sick of noncompiling purgatory
+			if(v!=null){//probs should rewrite this but I'm sick of noncompiling purgatory
+				GTHRTMod.logger.info("Found sellable? {} - {}",i, v);
 				if(exportMarket==null || exportMarket.currentValue<MarketHandler.markets.get(v.getKey()).currentValue){
-					exportMarket= MarketHandler.markets.get(v.getKey());
-					exports.add(i);
+					exportMarket = MarketHandler.markets.get(v.getKey());
 				}
-				else if(exportMarket.name==v.getKey()){//only need to gather items we could export
-					exports.add(i);
-				}
+				exports.add(i);
+
 
 				}
 		}
@@ -90,8 +94,9 @@ public class PortLogic extends MultiblockRecipeLogic {
 		Fluid fuel = portController.getFuel();
 		int fuelCap = 0;
 		if(fuel==null){//this means we're using solid fuel
-			for( ItemStack i : GTUtility.itemHandlerToList(portController.getImportItems())){//can't use the first check cause you're supposed to be able to nab coal from anywhere
-				int burn = i.getItem().getItemBurnTime(i);
+			for( ItemStack i : HRTUtils.itemHandlersToList(getInputBuses())){//can't use the first check cause you're supposed to be able to nab coal from anywhere
+				int burn = HRTUtils.actuallyGetBurnTime(i);
+				GTHRTMod.logger.info("Found burnable? {} - {}",i,burn);
 				if(burn>0){
 					fuelCap += burn;
 					burnables.add(i);
@@ -102,28 +107,38 @@ public class PortLogic extends MultiblockRecipeLogic {
 		else{
 			for(IFluidTank t : fluidInputs){if(fuel == t.getFluid().getFluid()){fuelCap+=t.getFluid().amount;}}
 		}
-		if(fuelCap < portController.getFuelEfficiency()){return null;}//no fuel exit early
 		if(foundCircuit){ //importing logic
 			Market currentMarket = MarketHandler.markets.get(marketQueue.get(currentIndex));
-			int maxImport = 0;
+			int maxImport = portController.getCap();
 			ArrayList<ItemStack> recipeItemInputs = new ArrayList<ItemStack>(); //declare variables for the Recipe constructor
 			if(portController.fuelSetting){
-				recipeItemInputs.addAll(roundCredits(credits,maxImport,currentMarket.currentValue));
+				maxImport = Math.min(Math.min(fuelCap/portController.getFuelEfficiency(),Math.round(budget/currentMarket.currentValue-0.5f)),maxImport);
+
+				Pair<Integer,List<ItemStack>> rounded = roundCredits(credits,maxImport,currentMarket.currentValue);
+				recipeItemInputs.addAll(rounded.getValue());
+				maxImport = rounded.getKey();
 
 				if(fuel==null){ //diverge again just had to check how much fuel was needed first
-					recipeItemInputs.addAll(roundSolidFuel(burnables,maxImport,portController.getFuelEfficiency()));
+					rounded = roundSolidFuel(burnables,maxImport,portController.getFuelEfficiency());
+					recipeItemInputs.addAll(rounded.getValue());
+					maxImport = rounded.getKey();
 				}
 			}
 			else{ //use freight
-				recipeItemInputs.addAll(roundCredits(credits,maxImport,portController.getFreight()+MarketHandler.markets.get(currentMarket).currentValue));
+				maxImport = Math.min(maxImport,Math.round(budget/(portController.getFreight()+currentMarket.currentValue)-0.5f));
+				Pair<Integer,List<ItemStack>> rounded = roundCredits(credits,maxImport,portController.getFreight()+currentMarket.currentValue);
+				recipeItemInputs.addAll(rounded.getValue());
+				maxImport = rounded.getKey();
 			}
 			if(maxImport<=0){return null;}//just for safety
 			//making the import recipe
 			for(ItemStack i : recipeItemInputs){
 				GTinputs.add(GTRecipeItemInput.getOrCreate(i));
 			}
+			GTinputs.add(new IntCircuitIngredient(currentIndex).setNonConsumable());//add circuit so we can use the previous recipe (Needs revision)
 			List<ItemStack> GToutputs = new ArrayList<ItemStack>();
 			ItemAndMetadata importTarget = MarketHandler.buyMarkets.get(marketQueue.get(currentIndex));
+			GTHRTMod.logger.info("Importing {} from {}",maxImport,importTarget);
 			while(maxImport != 0){
 				GToutputs.add(importTarget.toItemStack(Math.min(maxImport,
 											importTarget.item.getItemStackLimit())));
@@ -131,9 +146,9 @@ public class PortLogic extends MultiblockRecipeLogic {
 			}
 			return new Recipe(	GTinputs,
 								GToutputs,
-								null,//ChanceOutputs
-								fuel==null ? null : Arrays.asList(GTRecipeFluidInput.getOrCreate(fuel,maxImport*portController.getFuelEfficiency())),
-								null,//fluid outputs maybe for a future plan of straight fluid imports but probs just gonna use item containers
+								NonNullList.create(),//ChanceOutputs
+								fuel==null ? NonNullList.create() : Arrays.asList(GTRecipeFluidInput.getOrCreate(fuel,maxImport*portController.getFuelEfficiency())),
+								NonNullList.create(),//fluid outputs maybe for a future plan of straight fluid imports but probs just gonna use item containers
 								portController.getSpeed(), //boats and planes and w/e take the same amount of time no matter the cargo p-much
 								Math.toIntExact(maxVoltage),//full throttle baybee
 								true,//not sure if this makes sense, these aren't really recipes anyway
@@ -163,59 +178,71 @@ public class PortLogic extends MultiblockRecipeLogic {
 				}
 			}
 
-			maxCount =  Math.min(maxCount,Math.min(portController.getCap(),fuelCap/portController.getFuelEfficiency()));
 
 
 			ArrayList<ItemStack> recipeItemInputs = new ArrayList<ItemStack>(); //declare variables for the Recipe constructor
 
 			if(portController.fuelSetting){//use fuel if on
+				maxCount =  Math.min(maxCount,fuelCap/portController.getFuelEfficiency());
 				if(fuel==null){
-					recipeItemInputs.addAll(roundSolidFuel(burnables,maxCount,portController.getFuelEfficiency()));
+					Pair<Integer,List<ItemStack>> rounded = roundSolidFuel(burnables,maxCount,portController.getFuelEfficiency());
+					recipeItemInputs.addAll(rounded.getValue());
+					maxCount = rounded.getKey();
 				}
 			}
 			else{//apply a tax if not
-				recipeItemInputs.addAll(roundCredits(credits,maxCount,portController.getFreight()));
+				maxCount = Math.min(maxCount,budget/portController.getFreight());
+				Pair<Integer,List<ItemStack>> rounded = roundCredits(credits,maxCount,portController.getFreight());
+				recipeItemInputs.addAll(rounded.getValue());
+				maxCount = rounded.getKey();
 			}
+			GTHRTMod.logger.info("Getting export count of {}",maxCount);
+			if(maxCount <= 0){return null;}
 			float exportValue = 0f;
 			int currentCount = 0;
 			for(ItemStack i : exports){
 				Map.Entry<String,Float> v = MarketHandler.getValue(i);
 				if(v.getKey() == exportMarket.name){ //only export items for the same market, makes for simpler logic
-					if(currentCount+i.getCount() > portController.getCap()){
-						GTinputs.add(GTRecipeItemInput.getOrCreate(i,portController.getCap()-currentCount));
+					if(currentCount+i.getCount() > maxCount){
+						recipeItemInputs.add(HRTUtils.copyChangeSize(i,maxCount-currentCount));
+						break;
 					}
-					exportValue += exportMarket.currentValue*v.getValue();
-					GTinputs.add(GTRecipeItemInput.getOrCreate(i));
+					exportValue += Math.floor(exportMarket.currentValue*v.getValue());
+					recipeItemInputs.add(i);
+					currentCount += i.getCount();
 				}
 			}
 			for(ItemStack i: recipeItemInputs){
 				GTinputs.add(GTRecipeItemInput.getOrCreate(i));
 			}
-
+			GTHRTMod.logger.info("Submitting export recipe worth {}",exportValue);
+			GTHRTMod.logger.info("With inputs {}",recipeItemInputs);
+			GTHRTMod.logger.info("And outputs {}",HRTUtils.creditsToCoins(exportValue));
 			return new Recipe(	GTinputs,
 								HRTUtils.creditsToCoins(exportValue),
-								null,//ChanceOutputs
-								fuel==null ? null : Arrays.asList(GTRecipeFluidInput.getOrCreate(fuel,maxCount*portController.getFuelEfficiency())),
-								null,//fluid outputs maybe for a future plan of straight fluid imports but probs just gonna use item containers
+								NonNullList.create(),//ChanceOutputs
+								fuel==null ? NonNullList.create() : Arrays.asList(GTRecipeFluidInput.getOrCreate(fuel,maxCount*portController.getFuelEfficiency())),
+								NonNullList.create(),//fluid outputs maybe for a future plan of straight fluid imports but probs just gonna use item containers
 								portController.getSpeed(), //boats and planes and w/e take the same amount of time no matter the cargo p-much
 								Math.toIntExact(maxVoltage), //I paid for all the energy hatches so I'll use all the energy hatches
 								true,//not sure if this makes sense, these aren't really recipes anyway
 								false,//not a CT recipe (lol)
-								null );//recipePropertyStorage not sure what it does, seems to work if null, not gonna complain
+								null);//recipePropertyStorage not sure what it does, seems to work if null, not gonna complain
 
 		}
-
+		GTHRTMod.logger.info("Couldn't find a recipe");
+		return null; //if we come up short
 
 
 	}
 
 
-	protected List<ItemStack> roundSolidFuel(List<ItemStack> burnables,int target,int efficiency){
+	protected Pair<Integer,List<ItemStack>> roundSolidFuel(List<ItemStack> burnables,int target,int efficiency){
 		List<ItemStack> out = new ArrayList<ItemStack>();
 		burnables.sort(new HRTUtils.SortByBurn()); //bigger fuel first
 		int targetBurn = target*efficiency;
 		for(ItemStack b : burnables){
-			int time = TileEntityFurnace.getItemBurnTime(b);
+			int time = HRTUtils.actuallyGetBurnTime(b);
 			if(time > targetBurn){
 				if(b.getCount() == 1){//if it's just one big fuel then let the player waste it, They're the big silly tho
 					out.add(b);
@@ -235,10 +262,10 @@ public class PortLogic extends MultiblockRecipeLogic {
 				targetBurn -= time; //add the item to the list and remove the burn time
 			}
 		}
-		return out;
+		return new ImmutablePair<Integer,List<ItemStack>>(target,out);
 	}
 
-	protected List<ItemStack> roundCredits(List<ItemStack> credits, int target, float freight){ //this is essentially the same method except with coins and freight
+	protected Pair<Integer,List<ItemStack>> roundCredits(List<ItemStack> credits, int target, float freight){ //this is essentially the same method except with coins and freight
 		List<ItemStack> out = new ArrayList<ItemStack>();
 		credits.sort(new HRTUtils.SortCreditStacks());
 		int targetFreight = Math.round(target*freight);
@@ -251,7 +278,6 @@ public class PortLogic extends MultiblockRecipeLogic {
 				}
 				if(targetFreight % value/c.getCount() > value/(c.getCount()*2)){
 					out.add(HRTUtils.copyChangeSize(c,HRTUtils.ceilDiv(targetFreight,value/c.getCount())));
-					break;
 				}
 				else{
 					out.add(HRTUtils.copyChangeSize(c,Math.floorDiv(targetFreight,value/c.getCount())));
@@ -264,7 +290,13 @@ public class PortLogic extends MultiblockRecipeLogic {
 				targetFreight -= value;
 			}
 		}
-		return out;
+		return new ImmutablePair<Integer,List<ItemStack>>(target,out);
+	}
+
+	@Override
+	protected void completeRecipe(){
+		previousRecipe=null;
+		super.completeRecipe();
 	}
 
 

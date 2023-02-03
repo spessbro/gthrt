@@ -11,7 +11,10 @@ import net.minecraft.client.resources.I18n;
 import gregtech.api.items.metaitem.StandardMetaItem;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.Material;
-
+import gregtech.common.metatileentities.storage.MetaTileEntityCrate;
+import gregtech.common.metatileentities.MetaTileEntities;
+import static gregtech.api.recipes.RecipeMaps.PACKER_RECIPES;
+import static gregtech.api.GTValues.*;
 
 import gthrt.common.market.MarketHandler;
 import gthrt.common.market.MarketBase;
@@ -20,19 +23,26 @@ import gthrt.GTHRTMod;
 import javax.annotation.Nonnull;
 
 public class PackageItem extends StandardMetaItem{
-	private static final Material[] materialColors ={Materials.Steel,
-												Materials.Aluminium,
-												Materials.Titanium};
+	private static final Material[] materialColors={Materials.Steel,
+													Materials.Aluminium,
+													Materials.StainlessSteel,
+													Materials.Titanium,
+													Materials.TungstenSteel};
+	private static final MetaTileEntityCrate[] crates ={MetaTileEntities.STEEL_CRATE,
+														MetaTileEntities.ALUMINIUM_CRATE,
+														MetaTileEntities.STAINLESS_STEEL_CRATE,
+														MetaTileEntities.TITANIUM_CRATE,
+														MetaTileEntities.TUNGSTENSTEEL_CRATE}; //TODO: make this configurable with generated fake crates
 
 	@Override
     public void registerSubItems() {
     	int i =0;
         for (String m : MarketHandler.sellMarkets) {
         	addItem(i, String.format("%s_package",m)).addComponents(new MarketValueComponent(m,1f));
-        	addItem(i+1, String.format("%s_crate_steel",m)).addComponents(new MarketValueComponent(m,4f));
-        	addItem(i+2, String.format("%s_crate_aluminum",m)).addComponents(new MarketValueComponent(m,8f));
-        	addItem(i+3, String.format("%s_crate_titanium",m)).addComponents(new MarketValueComponent(m,32f));
-        	i+=4;
+        	for(int x = 0;x<materialColors.length;x++){
+        		addItem(i+1+x, String.format("%s_crate_%s",m,materialColors[x])).addComponents(new MarketValueComponent(m,(float)Math.pow(6,x+1)));
+        	}
+        	i+=materialColors.length+1;
         }
     }
 
@@ -45,7 +55,7 @@ public class PackageItem extends StandardMetaItem{
                 return super.getColorForItemStack(stack, tintIndex);
     	switch(tintIndex){
     		case 0:
-    			if(i%4>0){return materialColors[i%4-1].getMaterialRGB() | 0x88000000;}
+    			if(i%(materialColors.length+1)>0){return materialColors[i%(materialColors.length+1)-1].getMaterialRGB() | 0x88000000;}
     			break;
     		case 1:
             	return m.color | 0x88000000;
@@ -63,7 +73,7 @@ public class PackageItem extends StandardMetaItem{
 		ModelBakery.registerItemVariants(this,box);
 		ModelBakery.registerItemVariants(this,crate);
 		for(short i : metaItems.keySet()){
-			if(i%4<1){ metaItemsModels.put(i,new ModelResourceLocation(box, "inventory"));}
+			if(i%(materialColors.length+1)==0){ metaItemsModels.put(i,new ModelResourceLocation(box, "inventory"));}
 			else{metaItemsModels.put(i,new ModelResourceLocation(crate, "inventory"));}
 
 		}
@@ -71,12 +81,39 @@ public class PackageItem extends StandardMetaItem{
     @Nonnull
     @Override
     public String getItemStackDisplayName(ItemStack stack) {
-    	if(stack.getItemDamage()%4==0){
-    		return I18n.format("market.names."+((MarketValueComponent)getBehaviours(stack).get(0)).marketName)+" "+I18n.format("package.name").toLowerCase();
+    	if(stack.getItemDamage()%(materialColors.length+1)==0){
+    		return I18n.format("market.names."+((MarketValueComponent)getBehaviours(stack).get(0)).marketName)+" "+I18n.format("package.name");
     	}
     	else{
-    		return materialColors[stack.getItemDamage()%4-1].getLocalizedName()+" "+I18n.format("market.names."+((MarketValueComponent)getBehaviours(stack).get(0)).marketName)+" "+I18n.format("crate.name").toLowerCase();
+    		return materialColors[(stack.getItemDamage()%(materialColors.length+1))-1].getLocalizedName()+" "+I18n.format("market.names."+((MarketValueComponent)getBehaviours(stack).get(0)).marketName)+" "+I18n.format("crate.name");
     	}
     }
+
+
+    public void generateRecipes(){
+    	GTHRTMod.logger.info("Generating crate recipes");
+    	int z = 1;
+    	for(String m : MarketHandler.sellMarkets){
+    		for(int i=0;i<materialColors.length;i++){
+				PACKER_RECIPES.recipeBuilder()
+						.input(this,4,z+i-1)//package or lower crate
+						.input(crates[i])//empty crate
+						.output(this,1,z+i)//new package
+						.duration(80).EUt(VA[ULV]).buildAndRegister();
+    			if(i!=0){//For Above Steel crates;lets you skip a tier
+					PACKER_RECIPES.recipeBuilder()
+						.input(this,25,z+i-2)//package
+						.input(crates[i])//empty crate
+						.output(this,1,z+i)//new package
+						.duration(400).EUt(VA[LV]).buildAndRegister();
+
+    			}
+
+    		}
+    	}
+    	z+=materialColors.length+1;
+    }
+
+
 
 }

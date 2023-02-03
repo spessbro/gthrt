@@ -29,7 +29,7 @@ public class HRTItems{
         HRT_PACKAGES = new PackageItem();
         HRT_PACKAGES.setRegistryName("hrt_package");
     }
-    public static void init(){
+    public static void init(){ ///ids 0x00-0x40
     	//graph
     	PLUGIN_GRAPH = HRT_ITEMS.addItem(0,"plugin.graph").addComponents(new ValueGraphPluginBehavior());
 
@@ -37,7 +37,10 @@ public class HRTItems{
     	//explosives
 		MetaItems.DYNAMITE.addComponents(new MarketValueComponent("explosives",0.05f));
 
-		PersonalHygieneChain.registerItems();
+
+    }
+    public static MetaItem<?>.MetaValueItem addMarketItem(int id,String name,String market,float value){
+    	return HRT_ITEMS.addItem(id,name).addComponents(new MarketValueComponent(market,value));
 
     }
 

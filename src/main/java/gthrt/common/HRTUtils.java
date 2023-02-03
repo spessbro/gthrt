@@ -2,14 +2,16 @@ package gthrt.common;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 import gregtech.api.items.metaitem.MetaItem;
 import gregtech.common.items.MetaItems;
-
+import gregtech.api.util.GTUtility;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Arrays	;
 import java.util.Map;
 import java.util.Set;
 import java.util.Comparator;
@@ -24,6 +26,7 @@ public class HRTUtils{
 															MetaItems.CREDIT_NEUTRONIUM};
 
 	public static <T> ArrayList<ArrayList<T>> getSubsets(T[] in){
+		if(in.length >= 32){return null;}
 		ArrayList<ArrayList<T>> out =  new ArrayList<ArrayList<T>>();
 		for(int i=0; i< 1<<in.length; i++){
 			ArrayList<T> x = new ArrayList<T>();
@@ -55,7 +58,7 @@ public class HRTUtils{
 	}
 
 	public static int getCreditValue(ItemStack i){
-		if(i.getItem() instanceof MetaItem && i.getItemDamage()<10){return Math.toIntExact(Math.round((i.getCount()*Math.pow(8,i.getItemDamage()-1))));}
+		if(Arrays.asList(COINS).contains(((MetaItem)i.getItem()).getItem(i))){return Math.toIntExact(Math.round((i.getCount()*Math.pow(8,i.getItemDamage()-1))));}
 		return 0;
 	}
 	public static class SortCreditStacks implements Comparator<ItemStack>{
@@ -67,7 +70,7 @@ public class HRTUtils{
 	public static class SortByBurn implements Comparator<ItemStack>{
 		public SortByBurn(){}
 		public int compare(ItemStack a,ItemStack b){
-			return TileEntityFurnace.getItemBurnTime(a)-TileEntityFurnace.getItemBurnTime(b);
+			return actuallyGetBurnTime(a)-actuallyGetBurnTime(b);
 		}
 	}
 	public static List<ItemStack> creditsToCoins(int in){
@@ -103,6 +106,17 @@ public class HRTUtils{
 		ItemStack out = in.copy();
 		out.setCount(amount);
 		return out;
+	}
+
+	public static List<ItemStack> itemHandlersToList(final List<IItemHandlerModifiable> in){
+		List<ItemStack> out = new ArrayList<ItemStack>();
+		for(IItemHandlerModifiable i : in){
+			out.addAll(GTUtility.itemHandlerToList(i));
+		}
+		return out;
+	}
+	public static int actuallyGetBurnTime(ItemStack in){
+		return TileEntityFurnace.getItemBurnTime(in) * in.getCount();
 	}
 
 }
