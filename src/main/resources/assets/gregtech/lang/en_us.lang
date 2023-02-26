@@ -1,5 +1,8 @@
 
 metaitem.plugin.graph.name=Graph Plugin
+metaitem.plugin.graph.tooltip=WIP
+
+
 metaitem.toothbrush.name=Toothbrush
 metaitem.toothbrush.tooltip=Don't forget to floss
 metaitem.toothpaste.name=Toothpaste
@@ -20,6 +23,14 @@ material.difluorophosphoric_acid=Difluorophosphoric Acid
 material.flowery_essence=Flowery Essence
 material.perfume=Perfume
 material.deodorant=Deodorant
+
+metaitem.shirt.name=Shirt
+metaitem.pants.name=Pants
+metaitem.cloth.name=Cloth
+metaitem.sole.name=Sole
+metaitem.shoes.name=shoes
+
+
 
 
 

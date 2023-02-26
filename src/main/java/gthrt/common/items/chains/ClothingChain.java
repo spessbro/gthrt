@@ -28,23 +28,27 @@ public class ClothingChain extends AbstractMarketChain{
 	private static final String MARKET_KEY = "clothing";
 
 	@Config.Name("enable"+MARKET_KEY+"chain")
-	boolean enable = true;
-
+	private boolean enable = true;
+	public boolean getEnable(){return enable;};
+	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem CLOTH;
+	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem PANTS;
+	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem SHIRT;
+	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem SOLE;
+	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem SHOES;
 
-	public static void registerMarket(){
+	public void registerMarket(){
     		MarketHandler.defineSellMarket(new MarketBase(MARKET_KEY,
-                                                          1,4000,
-                                                          0.8f,
-                                                          0.3f,
-                                                          0xbc1827));
+                                                          23,4000,
+                                                          0.1f,
+                                                          0x253b9f));
     }
 
-	public static void registerItems(int offset){
+	public void registerItems(int offset){
 		SOLE =HRTItems.HRT_ITEMS.addItem(offset,"sole");
 		CLOTH=HRTItems.HRT_ITEMS.addItem(offset+1,"cloth");
 		PANTS=HRTItems.addMarketItem(offset+2,"pants",MARKET_KEY,0.1f);
@@ -57,7 +61,7 @@ public class ClothingChain extends AbstractMarketChain{
 		MarketHandler.makeSellable(new ItemStack(Items.LEATHER_CHESTPLATE),MARKET_KEY,0.1f);
 
 	}
-	public static void registerRecipes(){
+	public void registerRecipes(){
 		//change vanilla boots recipe
 		ModHandler.removeRecipeByName(new ResourceLocation("minecraft:leather_boots"));
 		ModHandler.addShapedRecipe("leather_boots", new ItemStack(Items.LEATHER_BOOTS), new Object[] {
@@ -124,17 +128,20 @@ public class ClothingChain extends AbstractMarketChain{
 		ASSEMBLER_RECIPES.recipeBuilder()
 			.input(CLOTH,7)
 			.output(PANTS,2)
+			.circuitMeta(2)
 			.duration(320).EUt(VA[LV]).buildAndRegister();
 		//Shirt
 		ModHandler.addShapedRecipe("shirt", SHIRT.getStackForm(), new Object[] {
 			"CxC",
 			"CCC",
-			"C C",
+			"CCC",
 			Character.valueOf('C'), CLOTH.getStackForm()});
 		ASSEMBLER_RECIPES.recipeBuilder()
 			.input(CLOTH,4)
+			.circuitMeta(1)
 			.output(SHIRT)
 			.duration(160).EUt(VA[LV]).buildAndRegister();
+		//Package
 		ASSEMBLER_RECIPES.recipeBuilder()
 			.input(SHIRT,2)
 			.input(PANTS,2)

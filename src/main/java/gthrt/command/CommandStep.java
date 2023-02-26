@@ -14,7 +14,7 @@ class CommandStep extends CommandBase{
 	}
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		for(int i = 0;i<Integer.parseInt(args[0]);i++){
-			MarketHandler.doStep(server.worlds[0].rand);
+			MarketHandler.doStep();
 		}
 		GTHRTMod.logger.info("Stepped "+args[0]+" times");
 	}

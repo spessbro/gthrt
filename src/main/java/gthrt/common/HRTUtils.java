@@ -99,7 +99,7 @@ public class HRTUtils{
 	}
 
 	public static int ceilDiv(float a,float b){
-		return Math.round((a-1)/b)+1;
+		return (int)Math.ceil(a/b);
 	}
 
 	public static ItemStack copyChangeSize(ItemStack in, int amount){

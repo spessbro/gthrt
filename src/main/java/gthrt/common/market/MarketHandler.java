@@ -14,11 +14,18 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.relauncher.Side;
 
 import gregtech.api.unification.stack.ItemAndMetadata;
 import gregtech.common.items.MetaItems;
 import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.items.metaitem.stats.IItemComponent;
+import gregtech.api.unification.ore.OrePrefix;
+import gregtech.api.unification.OreDictUnifier;
+import gregtech.api.unification.material.Materials;
+import gregtech.api.unification.material.Material;
+import static gregtech.api.unification.material.properties.PropertyKey.ORE;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -31,6 +38,8 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import gregtechfoodoption.item.GTFOMetaItem;
+
 import gthrt.GTHRTMod;
 import gthrt.common.HRTUtils;
 import gthrt.common.HRTConfig;
@@ -38,9 +47,12 @@ import gthrt.common.items.MarketValueComponent;
 
 
 
-import gregtech.api.GregTechAPI;
 
+import gregtech.api.GregTechAPI;
+@Mod.EventBusSubscriber(modid = GTHRTMod.MODID)
 public class MarketHandler{
+	private static Random randomHandler = new Random();
+
 	private static final String DATA_NAME = GTHRTMod.MODID + "_MarketData";
 	public static Map<String,MarketBase> marketTypes = new HashMap<String,MarketBase>();
 	public static Map<String,Market> markets = new HashMap<String,Market>();
@@ -58,7 +70,19 @@ public class MarketHandler{
 
 	//putting this here for now
 	public static void populateMarkets(){
-		defineBuyMarket(new MarketBase("rubber",1,3000,0.1f,0.1f,0xffcc42),MetaItems.STICKY_RESIN.getStackForm());
+		fromOre(Materials.Coal,2,8600,0.1f);
+		fromOre(Materials.GarnetSand,24,2000,0.3f);
+		fromOre(Materials.Tantalite,36,1400,0.3f);
+		fromOre(Materials.Bauxite,17,3500,0.2f);
+		fromOre(Materials.Apatite,6,4200,0.3f);
+		fromOre(Materials.Redstone,2,9000,0.3f);
+		fromOre(Materials.Pentlandite,20,2500,0.15f);
+		fromOre(Materials.Tetrahedrite,12,5000,0.3f);
+		fromOre(Materials.Powellite,56,800,0.5f);
+		fromOre(Materials.Cobaltite,26,1000,0.4f);
+		fromOre(Materials.Cassiterite,8,4200,0.1f); //these are as preliminary as it gets
+
+
 	}
 	public static void makeSellable(ItemStack item, String marketName, float value){
 		sellableItems.put(new ItemAndMetadata(item),new ImmutablePair<String,Float>(marketName, value));
@@ -74,21 +98,22 @@ public class MarketHandler{
 	}
 
 
-	public static void defineSellMarket(MarketBase in){
+	public static MarketBase defineSellMarket(MarketBase in){
 		marketTypes.put(in.name,in);
 		sellMarkets.add(in.name);
+		return in;
 	}
 
-	public static void defineBuyMarket(MarketBase in,ItemAndMetadata item){
+	public static MarketBase defineBuyMarket(MarketBase in,ItemAndMetadata item){
 		marketTypes.put(in.name,in);
 		buyMarkets.put(in.name,item);
+		return in;
 	}
-	public static void defineBuyMarket(MarketBase in){
-		defineBuyMarket(in, airItem); //In case we generate the market before the sellable item.
+	public static MarketBase defineBuyMarket(MarketBase in){
+		return defineBuyMarket(in, airItem); //In case we generate the market before the sellable item.
 	}
-	public static void defineBuyMarket(MarketBase in,ItemStack stack){
-		marketTypes.put(in.name,in);
-		buyMarkets.put(in.name,new ItemAndMetadata(stack));
+	public static MarketBase defineBuyMarket(MarketBase in,ItemStack stack){
+		return defineBuyMarket(in,new ItemAndMetadata(stack));
 	}
 
 	public static Map<String,Market> getMarkets(boolean buyOrSell){
@@ -97,32 +122,31 @@ public class MarketHandler{
 
 	@SubscribeEvent
 	public static void onTick(TickEvent.WorldTickEvent event){
-		if(!event.world.isRemote){
+		if(!event.world.isRemote && event.phase == TickEvent.Phase.END && event.side == Side.SERVER){
 			if(ticks % HRTConfig.ticksPerStep == 0){
 				ticks=0;
-				doStep(event.world.rand);
+				doStep();
 			}
 			ticks++;
 		}
 	}
-	public static void doStep(Random random){
+	public static void doStep(){
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
-			GTHRTMod.logger.info("Stepping {} markets", markets.keySet().size());
-			for(String m : markets.keySet()){
-				markets.get(m).Step(random);
+			for(Market m : markets.values()){
+				m.Step(randomHandler);
 			}
-
 			GregTechAPI.networkHandler.sendToAll(new MarketPacket(markets));
 			MarketData.setDirty();
 		}
 	}
 	public static String makeTooltip(String marketName, float value){
 	Market m = markets.get(marketName);
-	if(m==null){return marketName;}
+	MarketBase mb = marketTypes.get(marketName);
+	if(m==null && mb !=null){return mb.formatName();}
 	return I18n.format("market.tooltip",m.getChange() == 0f ? TextFormatting.GRAY : m.getChange()>0 ? TextFormatting.GREEN : TextFormatting.RED,
-									value,I18n.format("market.names."+marketName),
+									value,m.formatName(),
 									m.getChange() == 0f ? "=" : m.getChange()>0 ? "▲" : "▼",HRTUtils.variableRound(Math.abs(m.getChange())*100),
-									HRTUtils.variableRound(m.currentValue*value));
+									HRTUtils.variableRound(m.getValue()*value));
 	}
 	public static String makeTooltip(Map.Entry<String,Float> in){
 		return makeTooltip(in.getKey(),in.getValue());
@@ -130,7 +154,6 @@ public class MarketHandler{
 	public static Map.Entry<String,Float> getValue(ItemStack i){
 		if(markets.size() == 0){return null;}
 		if(i.getItem() instanceof MetaItem){
-			GTHRTMod.logger.info("ItemStack {} is MetaItem with stats {} long",i,((MetaItem) i.getItem()).getItem(i).getAllStats().size());
 			for(IItemComponent c :(List<IItemComponent>) ((MetaItem) i.getItem()).getItem(i).getAllStats()){
 
 				if(c instanceof MarketValueComponent){return new ImmutablePair<String,Float>(((MarketValueComponent)c).marketName,((MarketValueComponent)c).amount*i.getCount());}
@@ -142,4 +165,11 @@ public class MarketHandler{
 
 		}
 	}
+	public static MarketBase fromOre(Material m,float baseValue,int scale,float volatility){
+		if(!m.hasProperty(ORE)){
+			throw new IllegalArgumentException(String.format("Material {} is not an ore",m));
+		}
+		return defineBuyMarket(new MarketBase(m.toString(),baseValue,scale,volatility,m.getMaterialRGB(),true),OreDictUnifier.get(OrePrefix.crushed,m));
+	}
+
 }

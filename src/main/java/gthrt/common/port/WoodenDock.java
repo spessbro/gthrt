@@ -10,6 +10,9 @@ import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.blocks.BlockMachineCasing;
 import gregtech.common.blocks.BlockSteamCasing;
+import gregtech.api.pattern.TraceabilityPredicate;
+import gregtech.api.metatileentity.multiblock.MultiblockAbility;
+import gregtech.api.util.GTUtility;
 import static gregtech.api.GTValues.*;
 
 import net.minecraftforge.fluids.Fluid;
@@ -27,16 +30,16 @@ public class WoodenDock extends MetaTileEntityPortControllerAbstract{
 		return null;
 	}
 	public int getFuelEfficiency(){
-		return 100;
+		return (int)(400 / (energyContainer!=null ? GTUtility.getFloorTierByVoltage(energyContainer.getInputVoltage())+1 : 0.5));
 	}
-	public int getFreight(){
-		return 5;
+	public int getFreightInternal(){
+		return 12;
 	}
 	public int getSpeed(){
-		return 200; //450 secs
+		return 9000; //450 secs
 	}
 	public int getCap(){
-		return 64; //a stack at most
+		return (int)(24 *(energyContainer!=null ? GTUtility.getFloorTierByVoltage(energyContainer.getInputVoltage())+1 : 0.5)) ;
 	}
 
 	public WoodenDock(ResourceLocation metaTileEntityId){
@@ -59,8 +62,8 @@ public class WoodenDock extends MetaTileEntityPortControllerAbstract{
 			.aisle(new String[] { "WWWW**","WDDW**","*##***","*##***"})
 			.aisle(new String[] { "******","*DD***","*##***","*##***"})
 			.aisle(new String[] { "******","*DD***","*##***","*##***"})
-			.aisle(new String[] { "******","*DDDDD","*####X","#####X"})
-			.aisle(new String[] { "******","*DDDDD","*##S#X","#####X"})
+			.aisle(new String[] { "******","*DDDDD","*###XX","####XX"})
+			.aisle(new String[] { "******","*DDDDD","*#S#XX","####XX"})
 			.where('S', selfPredicate())
 			.where('W', blocks(Blocks.WATER))
 			.where('X', states(new IBlockState[] { MetaBlocks.MACHINE_CASING.getState(BlockMachineCasing.MachineCasingType.ULV) }).or(autoAbilities()))
@@ -70,6 +73,15 @@ public class WoodenDock extends MetaTileEntityPortControllerAbstract{
 			.build();
 	}
 
+	@Override
+	public TraceabilityPredicate autoAbilities(){
+		TraceabilityPredicate out = new TraceabilityPredicate()
+			.or(abilities(MultiblockAbility.IMPORT_ITEMS).setMinGlobalLimited(1).setPreviewCount(1))
+			.or(abilities(MultiblockAbility.EXPORT_ITEMS).setMinGlobalLimited(1).setPreviewCount(1))
+			.or(energyHatches(ULV,LV).setMaxGlobalLimited(2).setPreviewCount(1));
+
+		return out;
+	}
 
 
 

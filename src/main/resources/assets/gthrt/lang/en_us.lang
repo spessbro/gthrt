@@ -1,7 +1,20 @@
 
 market.tooltip=%s%d %s-%s%d%%(%dG)
-market.names.personalhygiene=Personal Hygiene
-market.names.explosives=Explosives
 package.name=Package
 crate.name=Crate
-machine.wooden_dock.name=Wooden Dock
+gthrt.machine.wooden_dock.name=Wooden Dock
+gthrt.machine.steel_harbor.name=Steel Harbor
+label.markets_available=Available Markets
+label.markets_added=Added Markets
+tooltip.fuel_setting.yes=Using %s %s per item
+tooltip.fuel_setting.no=Using %s credits per item
+tooltip.burn_time=Burn Time
+label.fuel_setting.yes=Using Fuel
+label.fuel_setting.no=Using Freight
+label.shipping_cap=Max throughput of %d units
+label.shipping_speed=Shipping every %d seconds
+
+market.personalhygiene.name=Personal Hygiene
+market.clothing.name=Clothing
+
+tile.steam_casing.pump_deck.name=Treated Wood Deck

@@ -10,7 +10,6 @@ import gthrt.common.plugin.ValueGraphPluginBehavior;
 import gthrt.common.items.MarketValueComponent;
 import gthrt.common.items.PackageItem;
 
-import gthrt.common.items.chains.PersonalHygieneChain;
 
 import java.util.List;
 
@@ -32,17 +31,10 @@ public class HRTItems{
     public static void init(){ ///ids 0x00-0x40
     	//graph
     	PLUGIN_GRAPH = HRT_ITEMS.addItem(0,"plugin.graph").addComponents(new ValueGraphPluginBehavior());
-
-
-    	//explosives
-		MetaItems.DYNAMITE.addComponents(new MarketValueComponent("explosives",0.05f));
-
-
     }
     public static MetaItem<?>.MetaValueItem addMarketItem(int id,String name,String market,float value){
     	return HRT_ITEMS.addItem(id,name).addComponents(new MarketValueComponent(market,value));
 
     }
-
 
 }

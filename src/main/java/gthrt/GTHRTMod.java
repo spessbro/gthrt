@@ -49,8 +49,7 @@ public class GTHRTMod
 	public static final boolean hasGTFO = Loader.isModLoaded("gregtechfoodoption");
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event){
         logger = event.getModLog();
 		HRTItems.preInit();
 		HRTChains.initMarkets();
@@ -72,27 +71,17 @@ public class GTHRTMod
 					world.setData(MarketData.DATA_NAME,marketData);
 				}
 				MarketData.setInstance(marketData);
-				logger.info("Market Types available {}",MarketHandler.marketTypes.size());
 				if(MarketHandler.markets.isEmpty()){
 					marketData.readFromNBT(new NBTTagCompound());
 				}
-    			if(MarketHandler.markets.size()==0){logger.error("No Markets?");}
-    			else{logger.info("Markets Loaded, markets size >> {}", MarketHandler.markets.size());}
 			}
         }
   	}
 
     @EventHandler
     public void init(FMLInitializationEvent event){
-		HRTTiles.init();
+		MarketHandler.populateMarkets();
     }
-    @SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event) {
-		HRTChains.initItems();
-	}@SubscribeEvent
-	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-        HRTChains.initRecipes();
-	}
     /*@EventHandler
     public void conctruct(FMLConstructionEvent event){
     	new SPacketAppleCoreFoodDivisorUpdate();

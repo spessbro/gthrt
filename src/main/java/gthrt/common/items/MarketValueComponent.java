@@ -35,4 +35,11 @@ public class MarketValueComponent implements IItemBehaviour{
 
 		//lines.add(I18n.format("market.names."+marketName));
 	}
+	public Market getMarket(){
+		Market m = MarketHandler.markets.get(marketName);
+		if(m==null){
+			return Market.fromBase(MarketHandler.marketTypes.get(marketName));
+		}
+		return m;
+	}
 }

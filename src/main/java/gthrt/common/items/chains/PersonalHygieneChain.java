@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
 import net.minecraftforge.common.config.Config;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import gregtech.api.unification.material.Material;
 import gregtech.api.items.metaitem.MetaItem;
@@ -18,6 +19,8 @@ import gregtech.api.recipes.ingredients.IntCircuitIngredient;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.GTRecipeHandler;
+import gregtech.api.recipes.RecipeMap;
+import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.api.fluids.fluidType.FluidTypes;
 import static gregtech.api.recipes.RecipeMaps.*;
 import static gregtech.api.unification.material.Materials.*;
@@ -43,78 +46,100 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 
+import gregtech.core.CoreModule;
 
 @Config(modid=GTHRTMod.MODID)
 public class PersonalHygieneChain extends AbstractMarketChain{
 	@Config.Ignore
 	private static final String MARKET_KEY = "personalhygiene";
 	@Config.Name("enable"+MARKET_KEY+"chain")
-	boolean enable = true;
+	private boolean enable = true;
+	public boolean getEnable(){return enable;};
 
+	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem TOOTHBRUSH;
 	@Config.Ignore
-	public static final Map<Material,Integer> brissleMaterials = new HashMap<Material,Integer>()
-	{{;
-		put(SiliconeRubber,3);
-		put(Polycaprolactam,6);
-	}};
+	public static Map<Material,Integer> brissleMaterials;
 	@Config.Ignore
-	public static final Map<Material,Integer> stickMaterials = new HashMap<Material,Integer>()
-	{{;
-		put(Polyethylene,2);
-		put(Epoxy,4);
-		put(Polybenzimidazole,6);
-	}};
-
+	public static Map<Material,Integer> stickMaterials;
+	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem TOOTHPASTE;
+	@Config.Ignore
 	public static Material Fluorophosphate;
+	@Config.Ignore
     public static Material AluminiumHydroxide;
+    @Config.Ignore
     public static Material SodiumAluminate;
+    @Config.Ignore
 	public static Material AmmoniumFluoride;
+	@Config.Ignore
     public static Material DifluorophosphoricAcid;
+    @Config.Ignore
     public static Material ToothpastePaste;
     @Config.Ignore
-	public static final Map<Material,Integer> tubeMaterials = new HashMap<Material,Integer>()
-	{{;
-		put(Steel,1);
-		put(Aluminium,2);
-		put(PolyvinylChloride,3);
-		put(Lead,4);
-	}};
-	public static final Material[] abbrasiveMaterials = {AluminiumHydroxide,Zeolite,Calcite};
-
+	public static Map<Material,Integer> tubeMaterials;
+	@Config.Ignore
+	public static Material[] abbrasiveMaterials;
+	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem DEODORANT;
 	@Config.Ignore
-	public static final Map<Material,Integer> capMaterials = new HashMap<Material,Integer>()
-	{{;
-		put(Polyethylene,1);
-		put(PolyvinylChloride,2);
-		put(Epoxy,3);
-		put(Polybenzimidazole,6);
-	}};
+	public static Map<Material,Integer> capMaterials;
+	@Config.Ignore
 	public static Material FloweryEssence;
+	@Config.Ignore
 	public static Material Perfume;
+	@Config.Ignore
     public static Material Deodorant;
-
+    @Config.Ignore
 	public static MetaItem<?>.MetaValueItem SOAP;
+	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem SOAP_BASE;
-
+	@Config.Ignore
 	public static Material LiquidSoap;
 
 
-	public static void registerMarket(){
+	public void registerMarket(){
     		MarketHandler.defineSellMarket(new MarketBase(MARKET_KEY,
-                                                          2,2000,
+                                                          54,2000,
                                                           0.1f,
-                                                          0.5f,
-                                                          0xbc1827));
+                                                          0x34b586));
     }
+	private void setMaterials(){
+		tubeMaterials = new HashMap<Material,Integer>()
+			{{;
+				put(Steel,1);
+				put(Aluminium,2);
+				put(PolyvinylChloride,3);
+				put(Lead,4);
+			}};
+		capMaterials = new HashMap<Material,Integer>()
+			{{;
+				put(Polyethylene,1);
+				put(PolyvinylChloride,2);
+				put(Epoxy,3);
+				put(Polybenzimidazole,6);
+			}};
+		stickMaterials = new HashMap<Material,Integer>()
+			{{;
+				put(Polyethylene,2);
+				put(Epoxy,4);
+				put(Polybenzimidazole,6);
+			}};
+		brissleMaterials = new HashMap<Material,Integer>()
+			{{;
+				put(SiliconeRubber,3);
+				put(Polycaprolactam,6);
+			}};
+		abbrasiveMaterials = new Material[] {AluminiumHydroxide,Zeolite,Calcite};
+	}
 
-
-	public static void handleMaterial(int offset){
+	public void handleMaterials(int offset){
+		setMaterials();
 		//toothbrush
-		for(Material m : brissleMaterials.keySet()){m.addFlags(GENERATE_FINE_WIRE);}
-		for(Material m : stickMaterials.keySet()){m.addFlags(GENERATE_ROD);}
+		for(Material m : brissleMaterials.keySet()){
+			m.addFlags(GENERATE_FINE_WIRE);}
+		for(Material m : stickMaterials.keySet()){
+			m.addFlags(GENERATE_ROD);}
 		//toothpaste
 		for(Material m : tubeMaterials.keySet()){m.addFlags(GENERATE_FOIL);}
 		Fluorophosphate = new Material.Builder(offset, "sodium_fluorophosphate")
@@ -166,7 +191,7 @@ public class PersonalHygieneChain extends AbstractMarketChain{
 		}
 
 	}
-	public static void registerItems(int offset){
+	public void registerItems(int offset){
 
     	TOOTHBRUSH 	= HRTItems.addMarketItem(offset,"toothbrush",MARKET_KEY,0.01f);
     	TOOTHPASTE 	= HRTItems.addMarketItem(offset+1,"toothpaste",MARKET_KEY,0.02f);
@@ -175,7 +200,7 @@ public class PersonalHygieneChain extends AbstractMarketChain{
     	SOAP_BASE	= HRTItems.HRT_ITEMS.addItem(offset+4,"soap_base");
 	}
 
-	public static void registerRecipes(){
+	public void registerRecipes(){
 		//remove and readd nylon string recipe
 		GTRecipeHandler.removeRecipesByInputs(WIREMILL_RECIPES,OreDictUnifier.get(OrePrefix.ingot, Polycaprolactam));
 		WIREMILL_RECIPES.recipeBuilder()

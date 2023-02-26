@@ -82,10 +82,12 @@ public class PackageItem extends StandardMetaItem{
     @Override
     public String getItemStackDisplayName(ItemStack stack) {
     	if(stack.getItemDamage()%(materialColors.length+1)==0){
-    		return I18n.format("market.names."+((MarketValueComponent)getBehaviours(stack).get(0)).marketName)+" "+I18n.format("package.name");
+    		return ((MarketValueComponent)getBehaviours(stack).get(0)).getMarket().formatName()+" "+I18n.format("package.name");
     	}
     	else{
-    		return materialColors[(stack.getItemDamage()%(materialColors.length+1))-1].getLocalizedName()+" "+I18n.format("market.names."+((MarketValueComponent)getBehaviours(stack).get(0)).marketName)+" "+I18n.format("crate.name");
+    		return materialColors[(stack.getItemDamage()%(materialColors.length+1))-1].getLocalizedName()+
+    				" "+((MarketValueComponent)getBehaviours(stack).get(0)).getMarket().formatName()+
+    				" "+I18n.format("crate.name");
     	}
     }
 
@@ -110,8 +112,9 @@ public class PackageItem extends StandardMetaItem{
     			}
 
     		}
+
+    		z+=materialColors.length+1;
     	}
-    	z+=materialColors.length+1;
     }
 
 

@@ -31,7 +31,6 @@ public class MarketPacket implements IPacket, IClientExecutor {
 		for(Map.Entry<String,Market> e : markets.entrySet()){
 			tag.setTag(e.getKey(),e.getValue().writeToNBT());
 		}
-		GTHRTMod.logger.info("Encode >> {}" ,tag.toString());
 		ByteBufUtils.writeTag(buffer,tag);
 
 	}
@@ -48,6 +47,5 @@ public class MarketPacket implements IPacket, IClientExecutor {
     @Override
     public void executeClient(NetHandlerPlayClient handler) {
         MarketHandler.markets = markets;
-        GTHRTMod.logger.info("Synced markets >> {}",MarketHandler.marketTypes.size());
     }
 }

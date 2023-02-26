@@ -15,28 +15,29 @@ public class Market extends MarketBase{
 	public ArrayList<int[]> supplyModifiers;
 	public ArrayList<int[]> demandModifiers;
 	public ArrayList<Float> valueHistory;
-	public float currentValue;
 
-	public Market(String _name,float _baseValue,int _scale, float _volatility, float _elasticity,int _color){
-		super(_name,_baseValue,_scale,_volatility,_elasticity,_color);
+	public Market(String _name,float _baseValue,int _scale, float _volatility,int _color, boolean _isMaterial){
+		super(_name,_baseValue,_scale,_volatility,_color, _isMaterial);
 		supplyModifiers = new ArrayList<int[]>();
 		demandModifiers = new ArrayList<int[]>();
 		valueHistory = new ArrayList<Float>();
-		currentValue = baseValue;
-		valueHistory.add(currentValue);
+		valueHistory.add(_baseValue);
 	}
 	public MarketBase toBase(){
-    	return new MarketBase(name,baseValue,scale,volatility,elasticity,color);
+    	return new MarketBase(name,baseValue,scale,volatility,color,isMaterial);
     }
 
 
 	public static Market fromBase(MarketBase in){
-		GTHRTMod.logger.info("Turning base {} into market", in.name);
-		return new Market(in.name,in.baseValue,in.scale,in.volatility,in.elasticity,in.color);
+		return new Market(in.name,in.baseValue,in.scale,in.volatility,in.color,in.isMaterial);
 	}
 
 
 	public void Step(Random random){
+		valueHistory.add(getValue());
+		if(valueHistory.size()>=20){
+			valueHistory.remove(0);
+		}
 		for(int i=0;i<supplyModifiers.size();i++){
 			int[] target = supplyModifiers.get(i);
 			target[1]--;
@@ -56,23 +57,24 @@ public class Market extends MarketBase{
 		if(random.nextFloat()<volatility){
 			(random.nextBoolean() ? demandModifiers : supplyModifiers).add(makeModifier(random));
 		}
-		currentValue += ((getModifiers(false)/getModifiers(true)+1)*baseValue-currentValue)*elasticity;
-		valueHistory.add(currentValue);
-		if(valueHistory.size()>=20){
-			valueHistory.remove(0);
-		}
 
 	}
-	public int getModifiers(boolean supplyOrDemand){
-		int out = scale;
-		for(int[] i : supplyOrDemand ? supplyModifiers : demandModifiers){
+	public float getDemandModifiers(){
+		float out = scale;
+		for(int[] i : demandModifiers){
 			out += i[0];
-			if(out==0){out=(int) Math.round(scale*0.1);break;}
+		}
+		return out;
+	}
+	public float getSupplyModifiers(){
+		float out = scale;
+		for(int[] i : supplyModifiers){
+			out += i[0];
 		}
 		return out;
 	}
 	public int[] makeModifier(Random random){
-		int[] out = {Math.toIntExact(Math.round((random.nextFloat()-0.5)*volatility*scale)),random.nextInt(2)+1};
+		int[] out = {Math.toIntExact(Math.round(random.nextFloat()*volatility*scale)),random.nextInt(3)+1};
 		return out;
 	}
 
@@ -87,7 +89,6 @@ public class Market extends MarketBase{
 			bits[i]=Float.floatToIntBits(this.valueHistory.get(i));
 		}
 		out.setIntArray("valueHistory",bits);
-		GTHRTMod.logger.info("Writing Market to NBT >> {}", out.toString());
 		return out;
 
 	}
@@ -95,7 +96,6 @@ public class Market extends MarketBase{
 		if(in.getKeySet().isEmpty()){
 			GTHRTMod.logger.error("Tried to parse invalid market nbt");
 			return null;}
-		GTHRTMod.logger.info("Reading Market to NBT >> {}", in);
 		Market out = fromBase(base);
 
 		int[] supply = in.getIntArray("supplyMods");
@@ -110,7 +110,6 @@ public class Market extends MarketBase{
 		for(int i=0;i<history.length;i++){
 			out.valueHistory.add(Float.intBitsToFloat(history[i]));
 		}
-		out.currentValue=out.valueHistory.get(history.length);
 		return out;
 	}
 
@@ -125,7 +124,28 @@ public class Market extends MarketBase{
 	}
 
 	public float getChange(){
-		if(valueHistory.size()<2){return 0f;}
-		return (currentValue/valueHistory.get(valueHistory.size()-2))-1f;
+		if(valueHistory.size()<1){return 0f;}
+		return (getValue()/valueHistory.get(valueHistory.size()-1))-1f;
+	}
+	public float getValue(){
+		return (float) Math.sqrt(getDemandModifiers()/getSupplyModifiers()) * baseValue;
+	}
+
+	public float approxBuyValue(int count){
+		return (float)Math.sqrt((getDemandModifiers()+count/2)/getSupplyModifiers())*count*baseValue;
+	}
+
+	public float approxSellValue(float count){
+		return (float)Math.sqrt(getDemandModifiers()/(getSupplyModifiers()+count/2))*count*baseValue;
+	}
+
+	public int approxBuyCount(float value,float freight){
+		float x = 0;
+		int i = 0;
+		while(x+Math.sqrt((getDemandModifiers()+i)/getSupplyModifiers())*baseValue+freight < value){
+			x+= Math.sqrt((getDemandModifiers()+i)/getSupplyModifiers())*baseValue+freight;
+			i++;
+		}
+		return i;
 	}
 }
