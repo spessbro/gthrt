@@ -78,8 +78,7 @@ public abstract class MetaTileEntityPortControllerAbstract extends RecipeMapMult
         		.widget(new LabelWidget(110,3,getMetaFullName()).setXCentered(true))
         		.widget(switchable)
         		.image(3,136,214,90,DISPLAY)
-        		.widget(new AdvancedTextWidget(7,141,this::addDisplayText,0xFFFFFFFF).setMaxWidthLimit(208).setClickHandler(this::handleDisplayClick))
-        		.bindCloseListener(((PortLogic)recipeMapWorkable)::toggleQueue);
+        		.widget(new AdvancedTextWidget(7,141,this::addDisplayText,0xFFFFFFFF).setMaxWidthLimit(208).setClickHandler(this::handleDisplayClick));
 
 
     }
@@ -130,7 +129,6 @@ public abstract class MetaTileEntityPortControllerAbstract extends RecipeMapMult
 			addedMarkets.add(s);
 			availableMarkets.remove(s);
 		}
-		((PortLogic)recipeMapWorkable).toggleQueue();
 		super.readFromNBT(data);
 	}
 	@Override
