@@ -1,16 +1,16 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "gthrt",
+  "name": "GregTech Highly Randomized Trade",
+  "description": "An addon for GTCEU to add trading and selling cheap products",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Clown Cat"],
+  "credits": "The very helpful people working on GregTech Community Edition Unofficial and also Carbon for the idea",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": ["gregtech"]
 }
 ]
