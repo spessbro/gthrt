@@ -31,7 +31,7 @@ public class SteelHarbor extends MetaTileEntityPortControllerAbstract{
 		return Diesel.getFluid();
 	}
 	public int getFuelEfficiency(){
-		return (int) (10/GTUtility.getFloorTierByVoltage(energyContainer.getInputVoltage()));
+		return (int) (26/(GTUtility.getFloorTierByVoltage(energyContainer.getInputVoltage())+1));
 	}
 	public int getFreightInternal(){
 		return 5;
