@@ -39,12 +39,12 @@ import gthrt.common.HRTChains;
 /*import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import gregtechfoodoption.network.SPacketAppleCoreFoodDivisorUpdate;*/
 
-@Mod(modid = GTHRTMod.MODID, name = GTHRTMod.NAME, version = GTHRTMod.VERSION,dependencies = "required-after:gregtech@(2.3.4,);"+"after:gregtechfoodoption")
+@Mod(modid = GTHRTMod.MODID, name = GTHRTMod.NAME, version = GTHRTMod.VERSION,dependencies = "required-after:gregtech@(2.5.0,);"+"after:gregtechfoodoption")
 public class GTHRTMod
 {
     public static final String MODID = "gthrt";
     public static final String NAME = "GregTech Highly Randomized Trade";
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "0.0.1-hotfix2";
     public static Logger logger;
 	public static final boolean hasGTFO = Loader.isModLoaded("gregtechfoodoption");
 
