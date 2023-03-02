@@ -47,7 +47,7 @@ public class PackingLineController extends RecipeMapMultiblockController{
 
 	@Override
     protected BlockPattern createStructurePattern() {
-    	return FactoryBlockPattern.start(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+    	return FactoryBlockPattern.start(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.BACK)
     								.aisle("SSS", "SCS", "#P#")
                 					.aisle("SIS", "GFG", "#P#").setRepeatable(3, Math.min(3*tier,15))
                 					.aisle("SSS", "SOS", "#P#")
