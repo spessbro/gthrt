@@ -17,7 +17,7 @@ import static gregtech.api.recipes.RecipeMaps.*;
 
 import gthrt.common.market.MarketHandler;
 import gthrt.common.market.MarketBase;
-import gthrt.common.HRTItems;
+import gthrt.common.items.HRTItems;
 import gthrt.GTHRTMod;
 
 

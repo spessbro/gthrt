@@ -117,6 +117,13 @@ public class PackageItem extends StandardMetaItem{
     	}
     }
 
+    public ItemStack packageFromMarketName(String name,int count){
+    	return new ItemStack(this,count,MarketHandler.sellMarkets.indexOf(name)*(materialColors.length+1)-1);
+    }
+    public ItemStack packageFromMarketName(String name){
+    	return packageFromMarketName(name,1);
+    }
+
 
 
 }

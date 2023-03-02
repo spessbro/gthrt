@@ -26,7 +26,7 @@ import gregtech.api.unification.material.Materials;
 import gregtech.common.items.MetaItems;
 import static gregtech.api.unification.material.Materials.*;
 
-import gthrt.common.HRTItems;
+import gthrt.common.items.HRTItems;
 import gthrt.common.HRTUtils;
 import gthrt.common.market.MarketData;
 import gthrt.common.market.MarketPacket;
@@ -34,6 +34,7 @@ import gthrt.command.CommandMarket;
 import gthrt.common.market.MarketHandler;
 import gthrt.common.HRTTiles;
 import gthrt.common.HRTChains;
+import gthrt.common.block.HRTBlocks;
 
 
 /*import net.minecraftforge.fml.common.event.FMLConstructionEvent;
@@ -44,7 +45,7 @@ public class GTHRTMod
 {
     public static final String MODID = "gthrt";
     public static final String NAME = "GregTech Highly Randomized Trade";
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "0.0.1-hotfix1";
     public static Logger logger;
 	public static final boolean hasGTFO = Loader.isModLoaded("gregtechfoodoption");
 
@@ -52,6 +53,7 @@ public class GTHRTMod
     public void preInit(FMLPreInitializationEvent event){
         logger = event.getModLog();
 		HRTItems.preInit();
+		HRTBlocks.preInit();
 		HRTChains.initMarkets();
 		GregTechAPI.networkHandler.registerPacket(MarketPacket.class);
     }
@@ -81,6 +83,9 @@ public class GTHRTMod
     @EventHandler
     public void init(FMLInitializationEvent event){
 		MarketHandler.populateMarkets();
+		if(event.getSide() == Side.CLIENT){
+			HRTBlocks.registerColors();
+		}
     }
     /*@EventHandler
     public void conctruct(FMLConstructionEvent event){

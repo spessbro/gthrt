@@ -34,7 +34,7 @@ import static gregtech.api.GTValues.*;
 
 import gregtechfoodoption.GTFOMaterialHandler;
 
-import gthrt.common.HRTItems;
+import gthrt.common.items.HRTItems;
 import gthrt.GTHRTMod;
 import gthrt.common.HRTUtils;
 import gthrt.common.market.MarketHandler;

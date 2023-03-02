@@ -47,7 +47,7 @@ public class WoodenDock extends MetaTileEntityPortControllerAbstract{
 	}
 
 	public MetaTileEntity createMetaTileEntity(IGregTechTileEntity tileEntity) {
-		return (MetaTileEntity)new WoodenDock(this.metaTileEntityId);
+		return new WoodenDock(metaTileEntityId);
 	}
 
 

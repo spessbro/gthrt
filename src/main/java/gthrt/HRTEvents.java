@@ -3,10 +3,11 @@ package gthrt;
 import gregtech.api.GregTechAPI;
 
 import gthrt.common.HRTMats;
-import gthrt.common.HRTItems;
+import gthrt.common.items.HRTItems;
 import gthrt.common.HRTChains;
 import gthrt.common.market.MarketHandler;
 import gthrt.command.CommandMarket;
+import gthrt.common.block.HRTBlocks;
 import gthrt.common.market.MarketPacket;
 import gthrt.common.market.MarketData;
 
@@ -25,7 +26,6 @@ import net.minecraft.block.Block;
 
 
 import gregtech.api.unification.material.Materials;
-
 import gregtech.common.metatileentities.MetaTileEntities;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.common.blocks.MetaBlocks;
@@ -57,11 +57,13 @@ public class HRTEvents{
 	@SubscribeEvent
   	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		HRTTiles.init();
+		HRTBlocks.init(event);
   	}
     @SubscribeEvent
     public static void registerItems(@Nonnull RegistryEvent.Register<Item> event) {
 		HRTItems.init();
 		HRTChains.initItems();
+		HRTBlocks.registerBlockItems(event);
     }
     @SubscribeEvent
     public static void registerRecipes(@Nonnull RegistryEvent.Register<IRecipe> event) {

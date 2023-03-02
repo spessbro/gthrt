@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.annotation.Nonnull;
 
@@ -60,7 +61,7 @@ public class MarketHandler{
 	public static final boolean BUY = true;
 	public static Map<String,ItemAndMetadata> buyMarkets = new HashMap<String,ItemAndMetadata>();
 	public static final boolean SELL = false;
-	public static Set<String> sellMarkets = new HashSet<String>();
+	public static List<String> sellMarkets = new ArrayList<String>();
 
 	public static int ticks = 1;
 
@@ -117,7 +118,7 @@ public class MarketHandler{
 	}
 
 	public static Map<String,Market> getMarkets(boolean buyOrSell){
-		return HRTUtils.maskMap(markets, buyOrSell ? buyMarkets.keySet() : sellMarkets);
+		return HRTUtils.maskMap(markets, buyOrSell ? buyMarkets.keySet() : new HashSet<String>(sellMarkets));
 	}
 
 	@SubscribeEvent
@@ -151,8 +152,8 @@ public class MarketHandler{
 	public static String makeTooltip(Map.Entry<String,Float> in){
 		return makeTooltip(in.getKey(),in.getValue());
 	}
-	public static Map.Entry<String,Float> getValue(ItemStack i){
-		if(markets.size() == 0){return null;}
+	public static Pair<String,Float> getValue(ItemStack i){
+		if(markets.size() == 0 || i.isEmpty()){return null;}
 		if(i.getItem() instanceof MetaItem){
 			for(IItemComponent c :(List<IItemComponent>) ((MetaItem) i.getItem()).getItem(i).getAllStats()){
 

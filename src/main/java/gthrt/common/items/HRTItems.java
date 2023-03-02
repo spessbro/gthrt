@@ -1,4 +1,4 @@
-package gthrt.common;
+package gthrt.common.items;
 
 
 import gregtech.api.items.metaitem.MetaItem;

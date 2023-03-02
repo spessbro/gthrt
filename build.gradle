@@ -13,7 +13,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "0.0.1"
+version = "0.0.1-hotfix1"
 group = "clowncat.gthrt" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "gthrt"
 
@@ -66,8 +66,8 @@ dependencies {
 
     compile files(
             "libs/CraftTweaker2-1.12-4.1.20.670.jar",
-            "libs/gregtech-1.12.2-2.5.0-beta.jar",
-            "libs/GregTech Food Option-1.12.2-1.8.1.jar",
+            "libs/gregtech-1.12.2-2.5.2-beta.jar",
+            "libs/GregTech+Food+Option-1.12.2-1.8.4.jar",
             "libs/groovyscript-0.1.0.jar",
             "libs/mcjtylib-1.12-3.5.4.jar"
 
