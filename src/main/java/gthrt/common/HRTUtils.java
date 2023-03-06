@@ -1,5 +1,7 @@
 package gthrt.common;
 
+import gthrt.GTHRTMod;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -28,15 +30,16 @@ public class HRTUtils{
 	public static <T> ArrayList<ArrayList<T>> getSubsets(T[] in){
 		if(in.length >= 32){return null;}
 		ArrayList<ArrayList<T>> out =  new ArrayList<ArrayList<T>>();
-		for(int i=0; i< 1<<in.length; i++){
+		for(int i=0; i< 0b1<<in.length; i++){
 			ArrayList<T> x = new ArrayList<T>();
 			for(int j=0;j<in.length;j++){
-				if((i&1<<j)>0){
+				if((i&0b1<<j)>0){
 					x.add(in[j]);
 				}
-			out.add(x);
 			}
+			out.add(x);
 		}
+		GTHRTMod.logger.info("all Subset set size = {} for {}",out.size(),in);
 		return out;
 
 	}

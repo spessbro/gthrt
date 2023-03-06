@@ -7,8 +7,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import gregtech.api.unification.material.Material;
 import gregtech.api.items.metaitem.MetaItem;
@@ -40,63 +38,39 @@ import gthrt.common.HRTUtils;
 import gthrt.common.market.MarketHandler;
 import gthrt.common.market.MarketBase;
 import gthrt.common.items.MarketValueComponent;
+import gthrt.common.HRTConfig;
 
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 
-import gregtech.core.CoreModule;
-
-@Config(modid=GTHRTMod.MODID)
-public class PersonalHygieneChain extends AbstractMarketChain{
-	@Config.Ignore
-	private static final String MARKET_KEY = "personalhygiene";
-	@Config.Name("enable"+MARKET_KEY+"chain")
-	private boolean enable = true;
-	public boolean getEnable(){return enable;};
-
-	@Config.Ignore
+public class PersonalHygieneChain implements IMarketChain{
+	public static final String MARKET_KEY = "personalhygiene";
 	public static MetaItem<?>.MetaValueItem TOOTHBRUSH;
-	@Config.Ignore
 	public static Map<Material,Integer> brissleMaterials;
-	@Config.Ignore
 	public static Map<Material,Integer> stickMaterials;
-	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem TOOTHPASTE;
-	@Config.Ignore
 	public static Material Fluorophosphate;
-	@Config.Ignore
     public static Material AluminiumHydroxide;
-    @Config.Ignore
     public static Material SodiumAluminate;
-    @Config.Ignore
 	public static Material AmmoniumFluoride;
-	@Config.Ignore
     public static Material DifluorophosphoricAcid;
-    @Config.Ignore
     public static Material ToothpastePaste;
-    @Config.Ignore
 	public static Map<Material,Integer> tubeMaterials;
-	@Config.Ignore
 	public static Material[] abbrasiveMaterials;
-	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem DEODORANT;
-	@Config.Ignore
 	public static Map<Material,Integer> capMaterials;
-	@Config.Ignore
 	public static Material FloweryEssence;
-	@Config.Ignore
 	public static Material Perfume;
-	@Config.Ignore
     public static Material Deodorant;
-    @Config.Ignore
 	public static MetaItem<?>.MetaValueItem SOAP;
-	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem SOAP_BASE;
-	@Config.Ignore
 	public static Material LiquidSoap;
 
+	public boolean getEnable(){
+		return HRTConfig.getEnable(MARKET_KEY);//boilerplate but I don't see another way
+	}
 
 	public void registerMarket(){
     		MarketHandler.defineSellMarket(new MarketBase(MARKET_KEY,
@@ -130,10 +104,10 @@ public class PersonalHygieneChain extends AbstractMarketChain{
 				put(SiliconeRubber,3);
 				put(Polycaprolactam,6);
 			}};
-		abbrasiveMaterials = new Material[] {AluminiumHydroxide,Zeolite,Calcite};
 	}
 
 	public void handleMaterials(int offset){
+
 		setMaterials();
 		//toothbrush
 		for(Material m : brissleMaterials.keySet()){
@@ -189,24 +163,32 @@ public class PersonalHygieneChain extends AbstractMarketChain{
             											.fluid().color(0x8a7e55)
             											.build();
 		}
-
+		abbrasiveMaterials = new Material[] {AluminiumHydroxide,Zeolite,Calcite};
 	}
 	public void registerItems(int offset){
+		boolean isEnable = getEnable();
 
-    	TOOTHBRUSH 	= HRTItems.addMarketItem(offset,"toothbrush",MARKET_KEY,0.01f);
-    	TOOTHPASTE 	= HRTItems.addMarketItem(offset+1,"toothpaste",MARKET_KEY,0.02f);
-    	DEODORANT 	= HRTItems.addMarketItem(offset+2,"deodorant",MARKET_KEY,0.02f);
-    	SOAP 		= HRTItems.addMarketItem(offset+3,"soap",MARKET_KEY,0.05f);
-    	SOAP_BASE	= HRTItems.HRT_ITEMS.addItem(offset+4,"soap_base");
+    	TOOTHBRUSH 	= HRTItems.addMarketItem(offset,"toothbrush",MARKET_KEY,0.07f,isEnable);
+    	TOOTHPASTE 	= HRTItems.addMarketItem(offset+1,"toothpaste",MARKET_KEY,0.12f,isEnable);
+    	DEODORANT 	= HRTItems.addMarketItem(offset+2,"deodorant",MARKET_KEY,0.13f,isEnable);
+    	SOAP 		= HRTItems.addMarketItem(offset+3,"soap",MARKET_KEY,0.15f,isEnable);
+    	SOAP_BASE	= HRTItems.HRT_ITEMS.addItem(offset+4,"soap_base").setInvisible(isEnable);
+
+		if(isEnable){
+    		OreDictUnifier.registerOre(new ItemStack(Blocks.YELLOW_FLOWER,1,0),"oreFlower");
+			for(BlockFlower.EnumFlowerType f : BlockFlower.EnumFlowerType.values()){
+    			OreDictUnifier.registerOre(new ItemStack(Blocks.RED_FLOWER,1,f.getMeta()),"oreFlower");
+			}
+			OreDictUnifier.registerOre(new ItemStack(Blocks.DOUBLE_PLANT,1,0),"oreFlower");//sunflower
+			OreDictUnifier.registerOre(new ItemStack(Blocks.DOUBLE_PLANT,1,1),"oreFlower");//syringa
+			OreDictUnifier.registerOre(new ItemStack(Blocks.DOUBLE_PLANT,1,4),"oreFlower");//rose
+			OreDictUnifier.registerOre(new ItemStack(Blocks.DOUBLE_PLANT,1,5),"oreFlower");//paeonia
+		}
 	}
 
 	public void registerRecipes(){
 		//remove and readd nylon string recipe
 		GTRecipeHandler.removeRecipesByInputs(WIREMILL_RECIPES,OreDictUnifier.get(OrePrefix.ingot, Polycaprolactam));
-		WIREMILL_RECIPES.recipeBuilder()
-			.input(OrePrefix.ingot, Polycaprolactam)
-			.output(OrePrefix.wireFine,Polycaprolactam, 8)
-			.duration(400).EUt(VA[ULV]).buildAndRegister();
 		WIREMILL_RECIPES.recipeBuilder()
 			.input(OrePrefix.wireFine, Polycaprolactam, 4)
 			.output(Items.STRING, 16)
@@ -306,27 +288,11 @@ public class PersonalHygieneChain extends AbstractMarketChain{
 		}
 		//I hate botania now
 		MIXER_RECIPES.recipeBuilder()
-			.input(Item.getItemFromBlock(Blocks.YELLOW_FLOWER),1,0)
+			.input("oreFlower")
 			.fluidInputs(Methanol.getFluid(1000))
 			.fluidInputs(Ethanol.getFluid(1000))
 			.fluidOutputs(FloweryEssence.getFluid(2000))
 			.duration(3000).EUt(VA[ULV]).buildAndRegister();
-		for(BlockFlower.EnumFlowerType f : BlockFlower.EnumFlowerType.values()){
-			MIXER_RECIPES.recipeBuilder()
-				.input(Item.getItemFromBlock(Blocks.RED_FLOWER),1,f.getMeta())
-				.fluidInputs(Methanol.getFluid(1000))
-				.fluidInputs(Ethanol.getFluid(1000))
-				.fluidOutputs(FloweryEssence.getFluid(2000))
-				.duration(3000).EUt(VA[ULV]).buildAndRegister();
-		}
-		for(BlockDoublePlant.EnumPlantType f : BlockDoublePlant.EnumPlantType.values()){
-			MIXER_RECIPES.recipeBuilder()
-				.input(Item.getItemFromBlock(Blocks.DOUBLE_PLANT),1,f.getMeta())
-				.fluidInputs(Methanol.getFluid(1000))
-				.fluidInputs(Ethanol.getFluid(1000))
-				.fluidOutputs(FloweryEssence.getFluid(2000))
-				.duration(3000).EUt(VA[ULV]).buildAndRegister();
-		}
 
 		DISTILLERY_RECIPES.recipeBuilder()
             .circuitMeta(1)
@@ -395,15 +361,6 @@ public class PersonalHygieneChain extends AbstractMarketChain{
 			.input(Items.PAPER)
 			.input(SOAP_BASE)
 			.output(SOAP)
-			.duration(200).EUt(VA[LV]).buildAndRegister();
-
-		//Package
-		ASSEMBLER_RECIPES.recipeBuilder()
-			.input(TOOTHBRUSH,16)
-			.input(TOOTHPASTE,4)
-			.input(SOAP,6)
-			.input(DEODORANT,2)
-			.output(HRTItems.HRT_PACKAGES.getItem("personalhygiene_package"))
 			.duration(200).EUt(VA[LV]).buildAndRegister();
 	}
 

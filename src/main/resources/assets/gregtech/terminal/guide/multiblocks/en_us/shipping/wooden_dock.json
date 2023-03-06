@@ -1,0 +1,99 @@
+{
+	"metatileentity": "wooden_dock",
+	"section": "GTHRT",
+	"title": "Shipping",
+	"stream": [{
+			"type": "slots",
+			"item_list": [{
+					"id": "gregtech:machine",
+					"damage": 1111,
+					"count": 1
+				},
+				{
+					"id": "gregtech:machine",
+					"damage": 1112,
+					"count": 1
+				}
+			]
+		},
+		{
+			"type": "textbox",
+			"content": ["§lContents:"]
+		},
+		{
+			"type": "textbox",
+			"link": "introduction",
+			"content": ["1. §9Introduction:"]
+		},
+		{
+			"type": "textbox",
+			"link": "exporting",
+			"content": ["1. §9Exporting:"]
+		},
+		{
+			"type": "textbox",
+			"link": "importing",
+			"content": ["1. §9importing:"]
+		},
+		{
+			"type": "textbox",
+			"ref": "introduction",
+			"content": ["§1Introduction"]
+		},
+		{
+			"type": "image",
+			"form": "resource",
+			"source": "gthrt:textures/terminal/shipping/port.png",
+			"width": 440,
+			"height": 458
+		},
+		{
+			"type": "textbox",
+			"content": ["§c§lThe port§r is the core of the gthrt addon. This is where you will be able to buy and sell goods.\n\n It can be configured by right clicking the port controller and clicking on any of the elements on each list.\n\n The port will take in items through its buses and either use them to import or export items depending on its limit.\n\n The shipping throughput is noted under the markets and will only ever ship up to that many items."]
+		},
+		{
+			"type": "textbox",
+			"ref": "exporting",
+			"content": ["§1Exporting"]
+		},
+		{
+			"type": "slots",
+			"item_list": [{
+					"id": "gthrt:hrt_meta_item",
+					"damage": 101,
+					"count": 1
+				},
+				{
+					"id": "gthrt:hrt_package",
+					"damage": 6,
+					"count": 1
+				},
+				{
+					"id": "gthrt:hrt_package",
+					"damage": 1,
+					"count": 1
+				}
+			]
+		},
+		{
+			"type": "textbox",
+			"content": ["§c§lExporting§r is one of the two functions of the port. When provided with items with a value, the port will try to ship them away. To learn more about products check the §lPacking§r section./n/n Ports can be configured to either use fuel or freight. Amount of either depends on the port and its voltage level and need to be supplied for items to be shipped off. The port will never try to export items that would cost more in freight than their value.\n\n All your juicy profits will be outputted as credits for you to use to Import items."]
+		},
+		{
+			"type": "textbox",
+			"ref": "importing",
+			"content": ["§1Importing"]
+		},
+		{
+			"type": "image",
+			"form": "resource",
+			"source": "gthrt:textures/terminal/shipping/import.png",
+			"width": 496,
+			"height": 458
+		},
+		{
+			"type": "textbox",
+			"content": ["§c§lImporting§r is the other function of the port. To do, you must provide it with a circuit of the appropriate number for the target market as well as some credits. The port will try to buy as much as freight, fuel and the good's price will allow and then move on to the next entry of added markets. This is system is so that you can use distinct buses with a circuit in each and provide credits to the respective bus in an equalized way. Note that if you only have one added market, a circuit is not necessary. The prices will fluctuate from you buying too many of a good so beware!"]
+		}
+	]
+}

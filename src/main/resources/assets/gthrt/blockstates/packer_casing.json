@@ -1,20 +1,142 @@
 {
-	"forge_marker":1,
-	"variants":{
-		"active=false,variant=lv":{
-			"model":"minecraft:cube_all",
-			"textures":{
-				"all":"gthrt:blocks/casings/packing/all",
+	"_comment" : "inverted states now, not working currently",
+	"forge_marker": 1,
+	"variants": {
+		"active=false,variant=lv": {
+			"model": "gthrt:2_layer_tint",
+			"textures": {
+				"bot0": "gregtech:blocks/casings/voltage/lv/bottom",
+				"top0": "gregtech:blocks/casings/voltage/lv/top",
+				"side0": "gregtech:blocks/casings/voltage/lv/side",
+				"side1": "gregtech:blocks/casings/packing/overlay_active"
 			}
 		},
-		"active=true,variant=lv":{
-			"model":"gregtech:cube_2_layer_all",
-			"textures":{
-				"bot_all":"gthrt:blocks/casings/packing/all",
-				"top_all":"gthrt:blocks/casings/packing/overlay_active"
+		"active=true,variant=lv": {
+			"model": "gregtech:cube_bottom_top_tintindex",
+			"textures": {
+				"bottom": "gregtech:blocks/casings/voltage/lv/bottom",
+				"top": "gregtech:blocks/casings/voltage/lv/top",
+				"side": "gregtech:blocks/casings/voltage/lv/side"
+			}
+		},
+		"active=true,variant=mv": {
+			"model": "gregtech:cube_bottom_top_tintindex",
+			"textures": {
+				"bottom": "gregtech:blocks/casings/voltage/mv/bottom",
+				"top": "gregtech:blocks/casings/voltage/mv/top",
+				"side": "gregtech:blocks/casings/voltage/mv/side"
+			}
+		},
+		"active=false,variant=mv": {
+			"model": "gthrt:2_layer_tint",
+			"textures": {
+				"bot0": "gregtech:blocks/casings/voltage/mv/bottom",
+				"top0": "gregtech:blocks/casings/voltage/mv/top",
+				"side0": "gregtech:blocks/casings/voltage/mv/side",
+				"side1": "gregtech:blocks/casings/packing/overlay_active"
+			}
+		},
+		"active=true,variant=hv": {
+			"model": "gregtech:cube_bottom_top_tintindex",
+			"textures": {
+				"bottom": "gregtech:blocks/casings/voltage/hv/bottom",
+				"top": "gregtech:blocks/casings/voltage/hv/top",
+				"side": "gregtech:blocks/casings/voltage/hv/side"
+			}
+		},
+		"active=false,variant=hv": {
+			"model": "gthrt:2_layer_tint",
+			"textures": {
+				"bot0": "gregtech:blocks/casings/voltage/hv/bottom",
+				"top0": "gregtech:blocks/casings/voltage/hv/top",
+				"side0": "gregtech:blocks/casings/voltage/hv/side",
+				"side1": "gregtech:blocks/casings/packing/overlay_active"
+			}
+		},
+		"active=true,variant=ev": {
+			"model": "gregtech:cube_bottom_top_tintindex",
+			"textures": {
+				"bottom": "gregtech:blocks/casings/voltage/ev/bottom",
+				"top": "gregtech:blocks/casings/voltage/ev/top",
+				"side": "gregtech:blocks/casings/voltage/ev/side"
+			}
+		},
+		"active=false,variant=ev": {
+			"model": "gthrt:2_layer_tint",
+			"textures": {
+				"bot0": "gregtech:blocks/casings/voltage/ev/bottom",
+				"top0": "gregtech:blocks/casings/voltage/ev/top",
+				"side0": "gregtech:blocks/casings/voltage/ev/side",
+				"side1": "gregtech:blocks/casings/packing/overlay_active"
+			}
+		},
+		"active=true,variant=iv": {
+			"model": "gregtech:cube_bottom_top_tintindex",
+			"textures": {
+				"bottom": "gregtech:blocks/casings/voltage/iv/bottom",
+				"top": "gregtech:blocks/casings/voltage/iv/top",
+				"side": "gregtech:blocks/casings/voltage/iv/side"
+			}
+		},
+		"active=false,variant=iv": {
+			"model": "gthrt:2_layer_tint",
+			"textures": {
+				"bot0": "gregtech:blocks/casings/voltage/iv/bottom",
+				"top0": "gregtech:blocks/casings/voltage/iv/top",
+				"side0": "gregtech:blocks/casings/voltage/iv/side",
+				"side1": "gregtech:blocks/casings/packing/overlay_active"
+			}
+		},
+		"active=true,variant=luv": {
+			"model": "gregtech:cube_bottom_top_tintindex",
+			"textures": {
+				"bottom": "gregtech:blocks/casings/voltage/luv/bottom",
+				"top": "gregtech:blocks/casings/voltage/luv/top",
+				"side": "gregtech:blocks/casings/voltage/luv/side"
+			}
+		},
+		"active=false,variant=luv": {
+			"model": "gthrt:2_layer_tint",
+			"textures": {
+				"bot0": "gregtech:blocks/casings/voltage/luv/bottom",
+				"top0": "gregtech:blocks/casings/voltage/luv/top",
+				"side0": "gregtech:blocks/casings/voltage/luv/side",
+				"side1": "gregtech:blocks/casings/packing/overlay_active"
+			}
+		},
+		"active=true,variant=zpm": {
+			"model": "gregtech:cube_bottom_top_tintindex",
+			"textures": {
+				"bottom": "gregtech:blocks/casings/voltage/zpm/bottom",
+				"top": "gregtech:blocks/casings/voltage/zpm/top",
+				"side": "gregtech:blocks/casings/voltage/zpm/side"
+			}
+		},
+		"active=false,variant=zpm": {
+			"model": "gthrt:2_layer_tint",
+			"textures": {
+				"bot0": "gregtech:blocks/casings/voltage/zpm/bottom",
+				"top0": "gregtech:blocks/casings/voltage/zpm/top",
+				"side0": "gregtech:blocks/casings/voltage/zpm/side",
+				"side1": "gregtech:blocks/casings/packing/overlay_active"
+			}
+		},
+		"active=true,variant=uv": {
+			"model": "gregtech:cube_bottom_top_tintindex",
+			"textures": {
+				"bottom": "gregtech:blocks/casings/voltage/uv/bottom",
+				"top": "gregtech:blocks/casings/voltage/uv/top",
+				"side": "gregtech:blocks/casings/voltage/uv/side"
+			}
+		},
+		"active=false,variant=uv": {
+			"model": "gthrt:2_layer_tint",
+			"textures": {
+				"bot0": "gregtech:blocks/casings/voltage/uv/bottom",
+				"top0": "gregtech:blocks/casings/voltage/uv/top",
+				"side0": "gregtech:blocks/casings/voltage/uv/side",
+				"side1": "gregtech:blocks/casings/packing/overlay_active"
 			}
 		}
 	}
 }
-
-

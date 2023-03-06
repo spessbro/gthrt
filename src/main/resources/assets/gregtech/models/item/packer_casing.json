@@ -1,5 +1,11 @@
 {
 	"forge_marker":1,
+	"defaults":{
+		"model":"minecraft:cube_all",
+		"textures":{
+			"all":"gthrt:blocks/casings/packing/all",
+		}
+	},
 	"variants":{
 		"active=false,variant=lv":{
 			"model":"minecraft:cube_all",

@@ -11,6 +11,8 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraft.block.properties.IProperty;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.item.ItemBlock;
 
 import gthrt.common.block.BlockPackerCasing;
@@ -18,6 +20,10 @@ import gthrt.client.ClientHandler;
 import gthrt.GTHRTMod;
 
 import gregtech.common.blocks.MetaBlocks;
+import gregtech.api.block.VariantItemBlock;
+import gregtech.api.recipes.ModHandler;
+import gregtech.loaders.recipe.CraftingComponent;
+import static gregtech.api.GTValues.VN;
 
 import java.util.Map;
 import java.util.List;
@@ -42,12 +48,30 @@ public class HRTBlocks{
 
 	public static void registerBlockItems(RegistryEvent.Register<Item> event){
 		IForgeRegistry<Item> registry = event.getRegistry();
-    	registry.register(createItemBlock(PACKER_CASING, gregtech.api.block.VariantItemBlock::new));
+    	registry.register(createItemBlock(PACKER_CASING, VariantItemBlock::new));
+	}
+	public static void initRecipes(){
+		NonNullList<ItemStack> list = NonNullList.create();
+		PACKER_CASING.getSubBlocks(null,list);
+		for(int i=0;i< list.size();i++){
+			ModHandler.addShapedRecipe("packer_casing_"+VN[i+1],list.get(i),
+				"AAA",
+				"CHC",
+				"X-X",
+				Character.valueOf('A'),CraftingComponent.ROBOT_ARM.getIngredient(i+1),
+				Character.valueOf('C'),CraftingComponent.CONVEYOR.getIngredient(i+1),
+				Character.valueOf('X'),CraftingComponent.CIRCUIT.getIngredient(i+1),
+				Character.valueOf('H'),CraftingComponent.HULL.getIngredient(i+1),
+				Character.valueOf('-'),CraftingComponent.CABLE.getIngredient(i+1));
+		}
+
+
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void registerItemModels() {
-		PACKER_CASING.onModelRegister();
+		//PACKER_CASING.onModelRegister();
+		registerItemModel(PACKER_CASING);
 	}
 
   	@SideOnly(Side.CLIENT)
@@ -60,4 +84,16 @@ public class HRTBlocks{
     	itemBlock.setRegistryName(block.getRegistryName());
     	return itemBlock;
  	}
+
+ 	@SideOnly(Side.CLIENT)
+    private static void registerItemModel(Block block) {
+        for (IBlockState state : block.getBlockState().getValidStates()) {
+            //noinspection ConstantConditions
+            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block),
+                    block.getMetaFromState(state),
+                    new ModelResourceLocation(block.getRegistryName(),
+                            MetaBlocks.statePropertiesToString(state.getProperties())));
+        }
+    }
+
 }

@@ -4,7 +4,6 @@ import net.minecraft.init.Items;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.config.Config;
 
 import gregtech.api.recipes.ModHandler;
 import gregtech.common.items.MetaItems;
@@ -19,27 +18,21 @@ import gthrt.common.market.MarketHandler;
 import gthrt.common.market.MarketBase;
 import gthrt.common.items.HRTItems;
 import gthrt.GTHRTMod;
+import gthrt.common.HRTConfig;
 
 
 
-@Config(modid=GTHRTMod.MODID)
-public class ClothingChain extends AbstractMarketChain{
-	@Config.Ignore
-	private static final String MARKET_KEY = "clothing";
-
-	@Config.Name("enable"+MARKET_KEY+"chain")
-	private boolean enable = true;
-	public boolean getEnable(){return enable;};
-	@Config.Ignore
+public class ClothingChain implements IMarketChain{
+	public static final String MARKET_KEY = "clothing";
 	public static MetaItem<?>.MetaValueItem CLOTH;
-	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem PANTS;
-	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem SHIRT;
-	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem SOLE;
-	@Config.Ignore
 	public static MetaItem<?>.MetaValueItem SHOES;
+
+	public boolean getEnable(){
+		return HRTConfig.getEnable(MARKET_KEY);//boilerplate but I don't see another way
+	}
 
 	public void registerMarket(){
     		MarketHandler.defineSellMarket(new MarketBase(MARKET_KEY,
@@ -49,17 +42,19 @@ public class ClothingChain extends AbstractMarketChain{
     }
 
 	public void registerItems(int offset){
-		SOLE =HRTItems.HRT_ITEMS.addItem(offset,"sole");
-		CLOTH=HRTItems.HRT_ITEMS.addItem(offset+1,"cloth");
-		PANTS=HRTItems.addMarketItem(offset+2,"pants",MARKET_KEY,0.1f);
-		SHIRT=HRTItems.addMarketItem(offset+3,"shirt",MARKET_KEY,0.15f);
-		SHOES=HRTItems.addMarketItem(offset+4,"shoes",MARKET_KEY,0.1f);
+		boolean isEnable = getEnable();
+		SOLE =HRTItems.HRT_ITEMS.addItem(offset,"sole").setInvisible(isEnable);
+		CLOTH=HRTItems.HRT_ITEMS.addItem(offset+1,"cloth").setInvisible(isEnable);
+		PANTS=HRTItems.addMarketItem(offset+2,"pants",MARKET_KEY,0.1f,isEnable);
+		SHIRT=HRTItems.addMarketItem(offset+3,"shirt",MARKET_KEY,0.1f,isEnable);
+		SHOES=HRTItems.addMarketItem(offset+4,"shoes",MARKET_KEY,0.15f,isEnable);
 
 		//handle vanilla item values
-		MarketHandler.makeSellable(new ItemStack(Items.LEATHER_BOOTS),MARKET_KEY,0.1f);
-		MarketHandler.makeSellable(new ItemStack(Items.LEATHER_LEGGINGS),MARKET_KEY,0.15f);
-		MarketHandler.makeSellable(new ItemStack(Items.LEATHER_CHESTPLATE),MARKET_KEY,0.1f);
-
+		if(isEnable){
+			MarketHandler.makeSellable(new ItemStack(Items.LEATHER_BOOTS),MARKET_KEY,0.1f);
+			MarketHandler.makeSellable(new ItemStack(Items.LEATHER_LEGGINGS),MARKET_KEY,0.15f);
+			MarketHandler.makeSellable(new ItemStack(Items.LEATHER_CHESTPLATE),MARKET_KEY,0.1f);
+		}
 	}
 	public void registerRecipes(){
 		//change vanilla boots recipe
@@ -78,16 +73,16 @@ public class ClothingChain extends AbstractMarketChain{
 			"sL",
 			"Lf",
 			Character.valueOf('L'),new ItemStack(Items.LEATHER)});
-		COMPRESSOR_RECIPES.recipeBuilder()
+		FORGE_HAMMER_RECIPES.recipeBuilder()
 			.input(Items.LEATHER,2)
 			.output(SOLE)
 			.duration(160).EUt(VA[ULV]).buildAndRegister();
-		COMPRESSOR_RECIPES.recipeBuilder()
-			.input(OrePrefix.ingot,Materials.Rubber)
+		FORGE_HAMMER_RECIPES.recipeBuilder()
+			.input(OrePrefix.plate,Materials.Rubber)
 			.output(SOLE)
 			.duration(80).EUt(VA[ULV]).buildAndRegister();
 		CUTTER_RECIPES.recipeBuilder()
-			.input(OrePrefix.plate,Materials.Rubber,4)
+			.input(OrePrefix.ingot,Materials.Rubber,4)
 			.output(SOLE,6)
 			.duration(160).EUt(VA[LV]).buildAndRegister();
 		//Cloth
@@ -141,13 +136,6 @@ public class ClothingChain extends AbstractMarketChain{
 			.circuitMeta(1)
 			.output(SHIRT)
 			.duration(160).EUt(VA[LV]).buildAndRegister();
-		//Package
-		ASSEMBLER_RECIPES.recipeBuilder()
-			.input(SHIRT,2)
-			.input(PANTS,2)
-			.input(SHOES)
-			.output(HRTItems.HRT_PACKAGES.getItem(MARKET_KEY+"_package"))
-			.duration(200).EUt(VA[LV]).buildAndRegister();
 
 
 	}

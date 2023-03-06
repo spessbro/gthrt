@@ -32,8 +32,12 @@ public class HRTItems{
     	//graph
     	PLUGIN_GRAPH = HRT_ITEMS.addItem(0,"plugin.graph").addComponents(new ValueGraphPluginBehavior());
     }
-    public static MetaItem<?>.MetaValueItem addMarketItem(int id,String name,String market,float value){
-    	return HRT_ITEMS.addItem(id,name).addComponents(new MarketValueComponent(market,value));
+    public static MetaItem<?>.MetaValueItem addMarketItem(int id,String name,String market,float value,boolean enabled){
+    	MetaItem<?>.MetaValueItem out = HRT_ITEMS.addItem(id,name);
+    	if(enabled){
+    		return out.addComponents(new MarketValueComponent(market,value));
+    	}
+    	return out.setInvisible();
 
     }
 

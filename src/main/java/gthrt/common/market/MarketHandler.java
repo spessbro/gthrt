@@ -157,7 +157,7 @@ public class MarketHandler{
 		if(i.getItem() instanceof MetaItem){
 			for(IItemComponent c :(List<IItemComponent>) ((MetaItem) i.getItem()).getItem(i).getAllStats()){
 
-				if(c instanceof MarketValueComponent){return new ImmutablePair<String,Float>(((MarketValueComponent)c).marketName,((MarketValueComponent)c).amount*i.getCount());}
+				if(c instanceof MarketValueComponent){return ImmutablePair.of(((MarketValueComponent)c).marketName,((MarketValueComponent)c).amount*i.getCount());}
 			}
 			return null;
 		}

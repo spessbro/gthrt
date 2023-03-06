@@ -31,11 +31,6 @@ public class BlockPackerCasing extends VariantActiveBlock<BlockPackerCasing.Casi
     	setHarvestLevel("wrench", 2);
     	setDefaultState(getState(CasingType.LV));
 	}
-	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-    	for (CasingType variant : VALUES) {
-			list.add(getItemVariant(variant));
-		}
-  	}
 
   	public enum CasingType implements IStringSerializable {
     	LV(makeName(GTValues.VN[1])),
@@ -54,6 +49,7 @@ public class BlockPackerCasing extends VariantActiveBlock<BlockPackerCasing.Casi
     	}
 
     	@Nonnull
+    	@Override
     	public String getName() {
       		return this.name;
     	}
@@ -62,12 +58,16 @@ public class BlockPackerCasing extends VariantActiveBlock<BlockPackerCasing.Casi
       		return voltageName.toLowerCase();
     	}
 	}
+	@Override
+	protected boolean isBloomEnabled(CasingType value){
+		return false;
+	}
+	//Helpers
 	public ItemStack getItemVariant(int voltage,int count){
 		return new ItemStack(this,count,voltage-1);
 	}
 	public IBlockState getState(int voltage){
 		return super.getState(CasingType.class.getEnumConstants()[voltage-1]);
 	}
-
 
 }

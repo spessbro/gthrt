@@ -25,8 +25,8 @@ import java.util.Map;
 public class ClientHandler{
 
 
-	public static final IBlockColor PACKER_CASING_BLOCK_COLOR = ((state, worldIn, pos, tintIndex) -> GTValues.VC[HRTBlocks.PACKER_CASING.getState(state).ordinal()+1]);
-	public static final IItemColor PACKER_CASING_ITEM_COLOR = ((state, tintIndex) -> GTValues.VC[HRTBlocks.PACKER_CASING.getState(state).ordinal()+1]);
+	public static final IBlockColor PACKER_CASING_BLOCK_COLOR = ((state, worldIn, pos, tintIndex) -> (tintIndex == 1) ? GTValues.VC[HRTBlocks.PACKER_CASING.getState(state).ordinal()+1] & 0x08ffffff : 0xffffff);
+	public static final IItemColor PACKER_CASING_ITEM_COLOR = ((state, tintIndex) -> (tintIndex == 1) ? GTValues.VC[HRTBlocks.PACKER_CASING.getState(state).ordinal()+1] & 0x08ffffff : 0xffffff);
 
 
 
