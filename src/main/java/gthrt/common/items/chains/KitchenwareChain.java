@@ -65,11 +65,13 @@ public class KitchenwareChain implements IMarketChain{
 		SPONGE=HRTItems.addMarketItem(offset+3,"sponge",MARKET_KEY,0.05f,isEnable);
 		BLENDER=HRTItems.addMarketItem(offset+4,"blender",MARKET_KEY,0.25f,isEnable);
 		TOASTER=HRTItems.addMarketItem(offset+5,"toaster",MARKET_KEY,0.25f,isEnable);
-		if(isEnable && GTHRTMod.hasGTFO){
-			float i = 0.3f;
+		//microwaves for sale!
+		if(GTHRTMod.hasGTFO){
+			float i = 0.35f;
 			for(MetaTileEntityMicrowave michaelwave : GTFOTileEntities.MICROWAVE){
+				if(michaelwave==null){continue;}
 				MarketHandler.makeSellable(michaelwave.getStackForm(),MARKET_KEY,i);
-				i*=2;
+				i*=2.5;
 			}
 		}
 
@@ -148,7 +150,6 @@ public class KitchenwareChain implements IMarketChain{
 
 	};
 	public void registerRecipes(){
-
 
 		CHEMICAL_RECIPES.recipeBuilder() //Phosgene
 			.fluidInputs(CarbonMonoxide.getFluid(1000))

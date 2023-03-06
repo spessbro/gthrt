@@ -13,7 +13,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "0.0.2"
+version = "0.0.2-hotfix1"
 group = "clowncat.gthrt" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "gthrt"
 
@@ -53,6 +53,7 @@ repositories {
     maven {
 		url "http://www.ryanliptak.com/maven/"
 	}
+	maven { url = "https://api.modrinth.com/maven" }
 }
 
 dependencies {
@@ -61,12 +62,11 @@ dependencies {
     deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
 
     deobfCompile "applecore:AppleCore:${project.minecraft.version}-3.1.5:deobf"
-    //deobfCompile "curse.maven:gregtech-food-option-477021:4111921"
+    deobfCompile "maven.modrinth:gregtech-food-option:1.8.5"
 
 
     compile files(
             "libs/CraftTweaker2-1.12-4.1.20.670.jar",
-            "libs/GregTech+Food+Option-1.12.2-1.8.4.jar",
             "libs/groovyscript-0.1.0.jar",
             "libs/mcjtylib-1.12-3.5.4.jar",
             "libs/gregtech-1.12.2-2.5.3-dev.jar"
